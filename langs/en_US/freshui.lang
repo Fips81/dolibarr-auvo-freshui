@@ -1,0 +1,22 @@
+# Dolibarr language file - en_US - freshui
+FreshuiFilterMenu=Filter menu…
+FreshuiToggleDark=Toggle dark mode
+FreshuiToggleSidebar=Show/hide side menu
+FreshuiAccent=Accent color
+FreshuiSidebar=Icon rail and side menu
+FreshuiSidebarHelp=Off: look only (colors, cards, forms), the default Dolibarr layout stays
+FreshuiAurora=Aurora background
+FreshuiDarkDefault=Dark mode default
+FreshuiDarkDefaultHelp=Applies until the user toggles it (remembered per browser)
+FreshuiDarkAuto=Automatic (system setting)
+FreshuiDarkLight=Light
+FreshuiDarkDark=Dark
+FreshuiHint=After changes reload with Ctrl+F5 so the browser fetches the styles again. Requires theme eldy and menu manager eldy_menu.php.
+FreshuiBrand=Logo on top of both menus
+FreshuiBrandHelp=Uses the company logo from Home → Setup → Company/Organization
+FreshuiLogin=New login page
+FreshuiGreetMorning=Good morning
+FreshuiGreetDay=Good afternoon
+FreshuiGreetEvening=Good evening
+FreshuiLoginTo=Sign in to %s
+FreshuiShow=Show

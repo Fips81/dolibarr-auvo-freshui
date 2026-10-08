@@ -1,0 +1,578 @@
+/* FreshUI - Optik und Layout über dem Dolibarr-Theme eldy. Eigenentwicklung, GPL v3+.
+ * Alles hängt an html.fu-on (vom Hook gesetzt), Layout zusätzlich an html.fu-layout. */
+
+/* ---------- Design-Token ---------- */
+html.fu-on {
+	--fu-radius: 14px;
+	--fu-rail-w: 76px;
+	--fu-icon: 25px;
+	--fu-brand-h: 58px;
+	--fu-side-w: 264px;
+	--fu-gap: 12px;
+	--fu-bg: #f7f5f2;
+	--fu-surface: rgba(255, 255, 255, .82);
+	--fu-card: #fff;
+	--fu-text: #1f2430;
+	--fu-muted: #6b7280;
+	--fu-border: rgba(15, 23, 42, .08);
+	--fu-border-strong: rgba(15, 23, 42, .18);
+	--fu-shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 10px 28px rgba(15, 23, 42, .07);
+	--fu-hover: rgba(var(--fu-accent-rgb), .09);
+	--fu-font: Inter, "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+
+	/* Dolibarr-Variablen auf unsere Palette umbiegen */
+	--colorbackbody: var(--fu-bg);
+	--colorbackhmenu1: transparent;
+	--colorbackvmenu1: transparent;
+	--colorbacktabcard1: var(--fu-card);
+	--colorbacktitle1: transparent;
+	--colorbacklinepair1: transparent;
+	--colorbacklinepair2: rgba(15, 23, 42, .022);
+	--colorbacklineimpair1: transparent;
+	--colorbacklineimpair2: rgba(15, 23, 42, .022);
+	--colorbacklinepairhover: var(--fu-hover);
+	--colortext: var(--fu-text);
+	--colortexttitle: var(--fu-text);
+	--colortexttitlenotab: var(--fu-text);
+	--colortexttitlenotab2: var(--fu-text);
+	--colortextbackhmenu: var(--fu-muted);
+	--colortextbackvmenu: var(--fu-text);
+	--colortextlink: var(--fu-accent-strong);
+	--colortexttitlelink: var(--fu-accent-strong);
+	--inputbordercolor: var(--fu-border-strong);
+	--inputbackgroundcolor: #fff;
+	color-scheme: light;
+}
+
+html.fu-on.fu-dark {
+	--fu-bg: #14161b;
+	--fu-surface: rgba(30, 33, 40, .84);
+	--fu-card: #1d2027;
+	--fu-text: #e6e8ee;
+	--fu-muted: #9aa1b0;
+	--fu-border: rgba(255, 255, 255, .09);
+	--fu-border-strong: rgba(255, 255, 255, .22);
+	--fu-shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 10px 28px rgba(0, 0, 0, .35);
+	--fu-hover: rgba(var(--fu-accent-rgb), .16);
+	--colorbacklinepair2: rgba(255, 255, 255, .03);
+	--colorbacklineimpair2: rgba(255, 255, 255, .03);
+	--colortextlink: rgb(var(--fu-accent-rgb));
+	--colortexttitlelink: rgb(var(--fu-accent-rgb));
+	--inputbackgroundcolor: #262a33;
+	--inputbackgroundcolordisabled: #20232a;
+	--inputcolordisabled: #8b92a1;
+	--colorbacktabactive: #e6e8ee;
+	--colorbackgrey: #181a20;
+	--tooltipbgcolor: #2a2e38;
+	--tooltipfontcolor: #e6e8ee;
+	--colorboxiconbg: #262a33;
+	--colortextbacktab: #e6e8ee;
+	--refidnocolor: #e6e8ee;
+	--tableforfieldcolor: #e6e8ee;
+	--oddevencolor: #e6e8ee;
+	--colorblack: #fff;
+	--colorwhite: #000;
+	--colorwhitelight: #333;
+	--colorboxstatsborder: rgba(255, 255, 255, .14);
+	--tablevalidbgcolor: rgb(80, 64, 33);
+	--dolgraphbg: #1d2027;
+	color-scheme: dark;
+}
+
+/* ---------- Grundoptik ---------- */
+html.fu-on body,
+html.fu-on input, html.fu-on select, html.fu-on textarea, html.fu-on button {
+	font-family: var(--fu-font);
+}
+html.fu-on body { color: var(--fu-text); background: var(--fu-bg); }
+html.fu-on.fu-aurora body {
+	background:
+		radial-gradient(900px 520px at 8% -8%, rgba(var(--fu-accent-rgb), .17), transparent 62%),
+		radial-gradient(820px 520px at 100% 0%, rgba(99, 102, 241, .10), transparent 62%),
+		var(--fu-bg);
+	background-attachment: fixed;
+}
+html.fu-on.fu-dark.fu-aurora body {
+	background:
+		radial-gradient(900px 520px at 8% -8%, rgba(var(--fu-accent-rgb), .22), transparent 62%),
+		radial-gradient(820px 520px at 100% 0%, rgba(99, 102, 241, .14), transparent 62%),
+		var(--fu-bg);
+	background-attachment: fixed;
+}
+html.fu-on #id-right { background: transparent; }
+
+/* Karten: Reiterkarten, Listen, Boxen */
+html.fu-on div.tabBar,
+html.fu-on div.div-table-responsive,
+html.fu-on div.div-table-responsive-no-min {
+	background: var(--fu-card);
+	border: 1px solid var(--fu-border);
+	border-radius: var(--fu-radius);
+	box-shadow: var(--fu-shadow);
+	padding: 6px 4px;
+}
+html.fu-on div.tabBar { padding: 14px 18px; }
+html.fu-on div.fiche > div.tabBar { margin-bottom: 14px; }
+
+/* Tabellen */
+html.fu-on table.noborder,
+html.fu-on table.liste {
+	border-collapse: separate;
+	border-spacing: 0;
+	border: 0;
+	box-shadow: none;
+}
+html.fu-on table.noborder tr.liste_titre td,
+html.fu-on table.noborder tr.liste_titre th,
+html.fu-on table.liste tr.liste_titre td,
+html.fu-on table.liste tr.liste_titre th,
+html.fu-on tr.liste_titre_filter td {
+	background: transparent;
+	color: var(--fu-muted);
+	border-bottom: 1px solid var(--fu-border);
+	font-size: .78em;
+	font-weight: 600;
+	letter-spacing: .045em;
+	text-transform: uppercase;
+}
+html.fu-on tr.liste_titre a, html.fu-on tr.liste_titre a:link, html.fu-on tr.liste_titre a:visited { color: inherit; }
+html.fu-on table.noborder tr.oddeven td, html.fu-on table.liste tr.oddeven td,
+html.fu-on table.noborder tr.oddeven th {
+	border-bottom: 1px solid var(--fu-border);
+}
+html.fu-on tr.oddeven:hover td { background: var(--fu-hover); }
+
+/* Seitentitel */
+html.fu-on div.titre, html.fu-on .table-fiche-title .titre { color: var(--fu-text); font-weight: 650; letter-spacing: -.01em; }
+
+/* Eingabefelder */
+html.fu-on input:not([type=checkbox]):not([type=radio]):not([type=submit]):not([type=button]):not([type=file]):not([type=color]):not([type=range]):not([type=hidden]):not(.select2-search__field),
+html.fu-on select,
+html.fu-on textarea {
+	border: 1px solid var(--fu-border-strong);
+	border-radius: 10px;
+	background-color: var(--inputbackgroundcolor);
+	color: var(--fu-text);
+	padding: 5px 9px;
+	box-shadow: none;
+	transition: border-color .15s, box-shadow .15s;
+}
+html.fu-on input:focus, html.fu-on select:focus, html.fu-on textarea:focus,
+html.fu-on .select2-container--open .select2-selection {
+	outline: none;
+	border-color: rgb(var(--fu-accent-rgb)) !important;
+	box-shadow: 0 0 0 3px rgba(var(--fu-accent-rgb), .2) !important;
+}
+html.fu-on .select2-container--default .select2-selection--single,
+html.fu-on .select2-container--default .select2-selection--multiple {
+	border: 1px solid var(--fu-border-strong);
+	border-radius: 10px;
+	background: var(--inputbackgroundcolor);
+}
+html.fu-on .select2-container--default .select2-selection--single .select2-selection__rendered { color: var(--fu-text); }
+html.fu-on .select2-dropdown { background: var(--fu-card); color: var(--fu-text); border-color: var(--fu-border-strong); border-radius: 10px; overflow: hidden; }
+
+/* Buttons */
+html.fu-on a.butAction, html.fu-on button.butAction, html.fu-on input.butAction,
+html.fu-on input.button, html.fu-on input[type=submit].button, html.fu-on button.button,
+html.fu-on a.button {
+	border-radius: 10px;
+	box-shadow: none;
+}
+html.fu-on a.butAction, html.fu-on a.butAction:link, html.fu-on a.butAction:visited,
+html.fu-on button.butAction, html.fu-on input[type=submit].button, html.fu-on input.button-save {
+	background: rgb(var(--fu-accent-rgb)) !important;
+	border: 1px solid rgb(var(--fu-accent-rgb)) !important;
+	color: #fff !important;
+}
+html.fu-on a.butAction:hover, html.fu-on button.butAction:hover, html.fu-on input[type=submit].button:hover {
+	background: var(--fu-accent-strong) !important;
+	border-color: var(--fu-accent-strong) !important;
+}
+
+/* ---------- Layout: Icon-Leiste + Seitenmenü (nur breite Bildschirme) ---------- */
+@media (min-width: 1001px) {
+	html.fu-layout #id-top {
+		position: fixed;
+		left: var(--fu-gap);
+		top: var(--fu-gap);
+		bottom: var(--fu-gap);
+		width: var(--fu-rail-w);
+		height: auto;
+		display: flex;
+		flex-direction: column;
+		padding: 10px 0;
+		background: var(--fu-surface);
+		-webkit-backdrop-filter: blur(16px);
+		backdrop-filter: blur(16px);
+		border: 1px solid var(--fu-border);
+		border-radius: 22px;
+		box-shadow: var(--fu-shadow);
+		z-index: 1005;
+	}
+	html.fu-layout div#tmenu_tooltip,
+	html.fu-layout div#tmenuinvert_tooltip {
+		flex: 1 1 auto;
+		min-height: 0;
+		padding: 0 6px;
+		overflow-y: auto;
+		overflow-x: hidden;
+		scrollbar-width: none;
+	}
+	html.fu-layout div#tmenu_tooltip::-webkit-scrollbar { display: none; }
+	html.fu-layout div.tmenudiv { width: auto; height: auto; }
+	html.fu-layout ul.tmenu {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		width: auto;
+		height: auto;
+	}
+	html.fu-layout li.tmenu, html.fu-layout li.tmenusel {
+		float: none;
+		display: block;
+		width: auto;
+		height: auto;
+		min-width: 0;
+		margin: 0;
+		padding: 0;
+		border-radius: 14px;
+		background: transparent;
+		transition: background .15s;
+	}
+	html.fu-layout li.tmenu::after, html.fu-layout li.tmenusel::after { display: none; }
+	html.fu-layout li.tmenuend, html.fu-layout li.menuhider { display: none !important; }
+	html.fu-layout li.tmenu:hover { background: var(--fu-hover); }
+	html.fu-layout li.tmenusel { background: rgba(var(--fu-accent-rgb), .14); }
+
+	html.fu-layout div.tmenucenter {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: auto;
+		max-width: none;
+		height: auto;
+		padding: 11px 2px;
+	}
+	html.fu-layout a.tmenuimage {
+		display: block;
+		float: none;
+		width: auto;
+		height: auto;
+		margin: 0;
+		padding: 0;
+		background: none;
+	}
+	html.fu-layout div.topmenuimage { width: auto; height: calc(var(--fu-icon) + 6px); margin: 0; text-align: center; font-size: var(--fu-icon); }
+	html.fu-layout div.topmenuimage > span, html.fu-layout div.topmenuimage .mainmenu { font-size: var(--fu-icon); }
+	html.fu-layout .mainmenu::before { font-size: var(--fu-icon); line-height: calc(var(--fu-icon) + 6px); color: var(--fu-muted); transition: color .15s; }
+	html.fu-layout li.tmenu:hover .mainmenu::before { color: var(--fu-text); }
+	html.fu-layout li.tmenusel .mainmenu::before { color: rgb(var(--fu-accent-rgb)); }
+
+	/* Nur Icons: der Name steht als Tooltip (title) am Icon */
+	html.fu-layout a.tmenulabel { display: none !important; }
+	html.fu-layout li.tmenusel .mainmenu::before { text-shadow: 0 0 18px rgba(var(--fu-accent-rgb), .45); }
+	html.fu-layout li.tmenucompanylogo { pointer-events: none; }
+	html.fu-layout.fu-brand li.tmenucompanylogo { display: none; }
+	html.fu-layout .menulogocontainer { margin: 2px auto 6px; max-width: 48px; height: auto; background: none; }
+	html.fu-layout .menulogocontainer img.mycompany { max-width: 48px !important; max-height: 40px; }
+
+	/* Werkzeuge + Benutzer unten in der Leiste */
+	html.fu-layout .fu-tools {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 4px;
+		padding: 8px 0 4px;
+		border-top: 1px solid var(--fu-border);
+	}
+	html.fu-layout .fu-iconbtn {
+		width: 42px;
+		height: 36px;
+		display: grid;
+		place-items: center;
+		border: 0;
+		border-radius: 12px;
+		background: transparent;
+		color: var(--fu-muted);
+		cursor: pointer;
+	}
+	html.fu-layout .fu-iconbtn:hover { background: var(--fu-hover); color: var(--fu-text); }
+
+	html.fu-layout div.login_block {
+		position: static;
+		width: auto;
+		padding: 6px 4px 0;
+		text-align: center;
+		line-height: 1.2;
+		background: none;
+		border-top: 1px solid var(--fu-border);
+	}
+	html.fu-layout div.login_block_other { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px; }
+	html.fu-layout div.login_block_user { display: flex; justify-content: center; padding-top: 4px; }
+	html.fu-layout .atoploginusername, html.fu-layout .login_block_elem_name .dropdown-toggle > span.hidden-xs { display: none; }
+	html.fu-layout div.login_block .dropdown-menu,
+	html.fu-layout .login_block .user-menu .dropdown-menu {
+		position: fixed;
+		left: calc(var(--fu-gap) * 2 + var(--fu-rail-w));
+		right: auto;
+		top: auto;
+		bottom: var(--fu-gap);
+		border-radius: var(--fu-radius);
+		box-shadow: var(--fu-shadow);
+		z-index: 1100;
+	}
+
+	/* Seitenmenü */
+	html.fu-layout .side-nav {
+		position: fixed;
+		display: block;
+		left: calc(var(--fu-gap) * 2 + var(--fu-rail-w));
+		top: var(--fu-gap);
+		bottom: var(--fu-gap);
+		width: var(--fu-side-w);
+		background: var(--fu-surface);
+		-webkit-backdrop-filter: blur(16px);
+		backdrop-filter: blur(16px);
+		border: 1px solid var(--fu-border);
+		border-radius: 22px;
+		box-shadow: var(--fu-shadow);
+		overflow: hidden;
+		z-index: 1004;
+	}
+	html.fu-layout #id-left {
+		display: block;
+		height: 100%;
+		padding: 14px 10px 20px;
+		overflow-y: auto;
+		scrollbar-width: thin;
+	}
+	html.fu-layout.fu-collapsed .side-nav { display: none; }
+
+	html.fu-layout #id-container {
+		display: block;
+		table-layout: auto;
+		width: auto;
+		margin-left: calc(var(--fu-gap) * 3 + var(--fu-rail-w) + var(--fu-side-w));
+	}
+	html.fu-layout.fu-collapsed #id-container { margin-left: calc(var(--fu-gap) * 2 + var(--fu-rail-w) + 8px); }
+	html.fu-layout #id-right,
+	html.fu-layout .classforhorizontalscrolloftabs #id-right {
+		display: block;
+		width: auto;
+		padding: 20px 24px 28px;
+	}
+	html.fu-layout .classforhorizontalscrolloftabs #id-container { width: auto; }
+
+	/* Logo-Leiste über beiden Menüs */
+	html.fu-layout.fu-brand #id-top,
+	html.fu-layout.fu-brand .side-nav { top: calc(var(--fu-gap) * 2 + var(--fu-brand-h)); }
+	html.fu-layout .fu-brandbar {
+		position: fixed;
+		left: var(--fu-gap);
+		top: var(--fu-gap);
+		width: calc(var(--fu-rail-w) + var(--fu-gap) + var(--fu-side-w));
+		height: var(--fu-brand-h);
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		padding: 0 18px;
+		background: var(--fu-surface);
+		-webkit-backdrop-filter: blur(16px);
+		backdrop-filter: blur(16px);
+		border: 1px solid var(--fu-border);
+		border-radius: 20px;
+		box-shadow: var(--fu-shadow);
+		z-index: 1006;
+	}
+	html.fu-layout.fu-collapsed .fu-brandbar { width: var(--fu-rail-w); padding: 0 8px; justify-content: center; }
+	html.fu-layout .fu-brandlogo { max-height: 36px; max-width: 100%; width: auto; object-fit: contain; }
+	/* Logo bleibt transparent. Für dunkle Logos im Dark Mode: unten Hintergrund aktivieren */
+	/* html.fu-dark .fu-brandlogo { background: #fff; border-radius: 8px; padding: 3px 6px; } */
+
+	/* Kopf des Seitenmenüs */
+	html.fu-layout .fu-leftbar { position: sticky; top: -14px; z-index: 2; margin: -14px -10px 8px; padding: 14px 12px 10px; background: var(--fu-surface); }
+	html.fu-layout .fu-lefthead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+	html.fu-layout .fu-lefttitle { font-weight: 650; font-size: 15px; color: var(--fu-text); }
+	html.fu-layout .fu-kbd {
+		font: 600 10.5px var(--fu-font);
+		padding: 3px 7px;
+		border: 1px solid var(--fu-border-strong);
+		border-radius: 7px;
+		color: var(--fu-muted);
+		background: var(--fu-card);
+	}
+	html.fu-layout .fu-filter { width: 100%; box-sizing: border-box; }
+
+	/* Menüeinträge */
+	html.fu-layout div.blockvmenu, html.fu-layout div.blockvmenupair, html.fu-layout div.blockvmenuimpair,
+	html.fu-layout div.blockvmenusearch, html.fu-layout div.blockvmenubookmarks, html.fu-layout div.blockvmenuend {
+		background: none;
+		border: 0;
+		box-shadow: none;
+		margin: 0 0 6px;
+		padding: 0;
+	}
+	html.fu-layout div.menu_titre { margin: 8px 0 2px; padding: 6px 10px; font-weight: 650; color: var(--fu-text); }
+	html.fu-layout div.menu_contenu {
+		margin: 0;
+		padding: 6px 10px 6px 30px;
+		border-radius: 10px;
+		font-size: 13px;
+		transition: background .12s;
+	}
+	html.fu-layout div.menu_contenu:hover { background: var(--fu-hover); }
+	html.fu-layout div.menu_contenu a, html.fu-layout div.menu_titre a { color: var(--fu-text); }
+	html.fu-layout .fu-hidden { display: none !important; }
+}
+
+/* ---------- Anmeldeseite (html.fu-login, vom Hook im Kontext mainloginpage gesetzt) ---------- */
+html.fu-login body.bodylogin {
+	display: block;
+	position: static;
+	height: auto;
+	min-height: 100vh;
+	background: #f4f5f7;
+	font-family: Inter, "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+}
+html.fu-login body.bodylogin::before {
+	content: "";
+	position: fixed;
+	left: 0; top: 0; bottom: 0;
+	width: 52%;
+	background:
+		radial-gradient(620px 520px at 18% 22%, rgba(var(--fu-accent-rgb), .55), transparent 70%),
+		radial-gradient(520px 420px at 90% 100%, rgba(var(--fu-accent-rgb), .30), transparent 70%),
+		linear-gradient(rgba(255, 255, 255, .035) 1px, transparent 1px) 0 0 / 48px 48px,
+		linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px) 0 0 / 48px 48px,
+		#07090d;
+}
+html.fu-login .fu-loginbrand {
+	position: fixed;
+	left: 0; bottom: 0;
+	width: 52%;
+	box-sizing: border-box;
+	padding: 0 7% 9vh;
+	color: #fff;
+}
+html.fu-login .fu-loginbar { display: block; width: 46px; height: 4px; border-radius: 2px; background: rgb(var(--fu-accent-rgb)); }
+html.fu-login .fu-loginbrand h1 {
+	margin: 18px 0 0;
+	font-size: clamp(34px, 4.6vw, 64px);
+	line-height: 1.02;
+	font-weight: 800;
+	letter-spacing: -.03em;
+	color: #fff;
+	overflow-wrap: anywhere;
+}
+
+html.fu-login .login_center {
+	position: relative;
+	z-index: 2;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	width: 48%;
+	min-height: 100vh;
+	margin-left: 52%;
+	background: transparent !important;
+}
+html.fu-login .login_vertical_align { width: 100%; max-width: 420px; padding: 24px; box-sizing: border-box; }
+html.fu-login form#login { padding: 0; text-align: left; }
+html.fu-login .login_table_title { display: none; }
+html.fu-login .login_table {
+	margin: 0;
+	padding: 0;
+	max-width: none;
+	background: none;
+	box-shadow: none;
+	border-radius: 0;
+}
+html.fu-login #login_line1 br, html.fu-login #login_line2 br { display: none; }
+html.fu-login div#login_left, html.fu-login div#login_right {
+	display: block;
+	min-width: 0;
+	padding: 0;
+	text-align: left;
+}
+html.fu-login div#login_left { margin-bottom: 26px; }
+html.fu-login #img_logo { max-width: 200px; max-height: 60px; border-radius: 0; }
+
+html.fu-login .fu-logingreet h2 { margin: 0 0 4px; font-size: 26px; font-weight: 750; letter-spacing: -.02em; color: #1f2430; }
+html.fu-login .fu-logingreet p { margin: 0 0 22px; font-size: 14px; color: #6b7280; }
+
+html.fu-login #login_right .tagtable, html.fu-login #login_right .trinputlogin { display: block; width: 100%; }
+html.fu-login .login_table .trinputlogin { margin: 0 0 12px; font-size: 14px; }
+html.fu-login .login_table .tdinputlogin { position: relative; display: block; min-width: 0; text-align: left; background: none; }
+html.fu-login .login_table .tdinputlogin .fa {
+	position: absolute;
+	left: 15px; top: 50%;
+	transform: translateY(-50%);
+	width: auto;
+	padding: 0;
+	color: #6b7280;
+	pointer-events: none;
+	z-index: 1;
+}
+html.fu-login .login_table input#username,
+html.fu-login .login_table input#password,
+html.fu-login .login_table input#securitycode {
+	box-sizing: border-box;
+	width: 100%;
+	height: 46px;
+	margin: 0;
+	padding: 0 44px 0 42px;
+	font-size: 14px;
+	color: #1f2430;
+	background: #fff;
+	border: 1px solid rgba(15, 23, 42, .18);
+	border-radius: 10px;
+	box-shadow: none;
+	transition: border-color .15s, box-shadow .15s;
+}
+html.fu-login .login_table input#username:focus,
+html.fu-login .login_table input#password:focus,
+html.fu-login .login_table input#securitycode:focus {
+	outline: none !important;
+	border-color: rgb(var(--fu-accent-rgb));
+	box-shadow: 0 0 0 3px rgba(var(--fu-accent-rgb), .22);
+}
+html.fu-login .login_table #tdpasswordlogin #togglepassword {
+	position: absolute;
+	top: 50%; right: 8px;
+	transform: translateY(-50%);
+	opacity: .6;
+	cursor: pointer;
+}
+html.fu-login #togglepassword .fa::before { visibility: visible; }
+html.fu-login #togglepassword .fa { position: static; transform: none; pointer-events: auto; }
+
+html.fu-login #login-submit-wrapper { padding: 0; margin-top: 8px; }
+html.fu-login input.butActionLogin {
+	box-sizing: border-box;
+	width: 100%;
+	height: 46px;
+	margin: 0;
+	background: #1f2430 !important;
+	border: 1px solid #1f2430 !important;
+	border-radius: 10px;
+	color: #fff !important;
+	font-size: 14px;
+	font-weight: 650;
+	cursor: pointer;
+}
+html.fu-login input.butActionLogin:hover { background: #000 !important; }
+html.fu-login #login_line2 .center { text-align: left; margin-top: 18px !important; }
+html.fu-login a.aloginpasswordforgotten, html.fu-login a.alogin { color: var(--fu-accent-strong); font-size: 13px; }
+html.fu-login .login_main_message { max-width: none; margin: 0 0 16px; text-align: left; }
+html.fu-login .login_main_message .error { padding: 10px 12px; border-radius: 10px; }
+html.fu-login .login_main_home { max-width: none !important; width: auto; }
+
+@media (max-width: 900px) {
+	html.fu-login body.bodylogin::before, html.fu-login .fu-loginbrand { display: none; }
+	html.fu-login .login_center { width: 100%; margin-left: 0; }
+}
