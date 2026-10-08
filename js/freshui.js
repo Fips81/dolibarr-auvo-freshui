@@ -101,8 +101,9 @@
 				});
 				tools.appendChild(coll);
 			}
-			var lb = top.querySelector('.login_block');
-			top.insertBefore(tools, lb || null);
+			// Unten einhängen, neben Benutzermenü/Version statt als eigene Reihe
+			// darüber - das gibt der Icon-Liste mehr Platz zum Wachsen.
+			top.appendChild(tools);
 		}
 
 		// Seitenmenü: Titel + Filter

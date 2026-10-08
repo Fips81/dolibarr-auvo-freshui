@@ -299,22 +299,22 @@ html.fu-on a.butAction:hover, html.fu-on button.butAction:hover, html.fu-on inpu
 	html.fu-layout .menulogocontainer { margin: 2px auto 6px; max-width: 48px; height: auto; background: none; }
 	html.fu-layout .menulogocontainer img.mycompany { max-width: 48px !important; max-height: 40px; }
 
-	/* Werkzeuge + Benutzer unten in der Leiste */
+	/* Werkzeuge: jetzt unten nach dem Benutzermenü/Version eingehängt (siehe freshui.js),
+	 * statt als eigene Reihe oberhalb davon - lässt der scrollenden Icon-Liste mehr Platz. */
 	html.fu-layout .fu-tools {
 		display: flex;
-		flex-direction: column;
-		align-items: center;
+		flex-direction: row;
+		justify-content: center;
 		gap: 4px;
-		padding: 8px 0 4px;
-		border-top: 1px solid var(--fu-border);
+		padding: 4px 0 8px;
 	}
 	html.fu-layout .fu-iconbtn {
-		width: 42px;
-		height: 36px;
+		width: 34px;
+		height: 30px;
 		display: grid;
 		place-items: center;
 		border: 0;
-		border-radius: 12px;
+		border-radius: 10px;
 		background: transparent;
 		color: var(--fu-muted);
 		cursor: pointer;
@@ -330,7 +330,11 @@ html.fu-on a.butAction:hover, html.fu-on button.butAction:hover, html.fu-on inpu
 		background: none;
 		border-top: 1px solid var(--fu-border);
 	}
+	/* Drucken- und Favoriten(Lesezeichen)-Icon raus: in der schmalen Leiste nicht gebraucht
+	 * und sie nehmen oben wertvollen Platz für die eigentlichen Menü-Icons weg. */
+	html.fu-layout #topmenu-bookmark-dropdown { display: none !important; }
 	html.fu-layout div.login_block_other { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px; }
+	html.fu-layout div.login_block_other .login_block_elem:has(.fa-print) { display: none; }
 	html.fu-layout div.login_block_user { display: flex; justify-content: center; padding-top: 4px; }
 	html.fu-layout .atoploginusername, html.fu-layout .login_block_elem_name .dropdown-toggle > span.hidden-xs { display: none; }
 	html.fu-layout div.login_block .dropdown-menu,
