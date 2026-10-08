@@ -28,7 +28,7 @@ $action = GETPOST('action', 'aZ09');
 if ($action == 'update') {
 	$accent = GETPOST('FRESHUI_ACCENT', 'alphanohtml');
 	if (!preg_match('/^#[0-9a-fA-F]{6}$/', $accent)) {
-		$accent = '#f97316';
+		$accent = '#00ffff';
 	}
 	$dark = GETPOST('FRESHUI_DARK_DEFAULT', 'aZ09');
 	if (!in_array($dark, array('auto', 'light', 'dark'))) {
@@ -48,7 +48,7 @@ if ($action == 'update') {
 llxHeader('', 'FreshUI');
 print load_fiche_titre('FreshUI', '<a href="'.DOL_URL_ROOT.'/admin/modules.php?restore_lastsearch_values=1">'.$langs->trans("BackToModuleList").'</a>', 'title_setup');
 
-$accent = getDolGlobalString('FRESHUI_ACCENT', '#f97316');
+$accent = getDolGlobalString('FRESHUI_ACCENT', '#00ffff');
 $dark = getDolGlobalString('FRESHUI_DARK_DEFAULT', 'auto');
 
 print '<form method="POST" action="'.$_SERVER['PHP_SELF'].'">';

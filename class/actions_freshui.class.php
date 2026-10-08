@@ -34,9 +34,9 @@ class ActionsFreshui
 			return 0;
 		}
 
-		$accent = getDolGlobalString('FRESHUI_ACCENT', '#f97316');
+		$accent = getDolGlobalString('FRESHUI_ACCENT', '#00ffff');
 		if (!preg_match('/^#[0-9a-fA-F]{6}$/', $accent)) {
-			$accent = '#f97316';
+			$accent = '#00ffff';
 		}
 		$r = hexdec(substr($accent, 1, 2));
 		$g = hexdec(substr($accent, 3, 2));
