@@ -224,7 +224,7 @@ html.fu-on a.butAction:hover, html.fu-on button.butAction:hover, html.fu-on inpu
 	html.fu-layout ul.tmenu {
 		display: flex;
 		flex-direction: column;
-		gap: 2px;
+		gap: 1px;
 		margin: 0;
 		padding: 0;
 		list-style: none;
@@ -255,7 +255,7 @@ html.fu-on a.butAction:hover, html.fu-on button.butAction:hover, html.fu-on inpu
 		width: auto;
 		max-width: none;
 		height: auto;
-		padding: 11px 2px;
+		padding: 8px 2px;
 	}
 	html.fu-layout a.tmenuimage {
 		display: block;
@@ -279,7 +279,7 @@ html.fu-on a.butAction:hover, html.fu-on button.butAction:hover, html.fu-on inpu
 	html.fu-layout:not(.fu-menutext) a.tmenulabel { display: none !important; }
 	html.fu-layout li.tmenusel .mainmenu::before { text-shadow: 0 0 18px rgba(var(--fu-accent-rgb), .45); }
 	html.fu-layout.fu-menutext { --fu-rail-w: 108px; }
-	html.fu-layout.fu-menutext div.tmenucenter { padding: 10px 4px; }
+	html.fu-layout.fu-menutext div.tmenucenter { padding: 7px 4px; }
 	html.fu-layout.fu-menutext a.tmenulabel {
 		display: block;
 		margin-top: 3px;
@@ -379,14 +379,14 @@ html.fu-on a.butAction:hover, html.fu-on button.butAction:hover, html.fu-on inpu
 		display: block;
 		table-layout: auto;
 		width: auto;
-		margin-left: calc(var(--fu-gap) * 3 + var(--fu-rail-w) + var(--fu-side-w));
+		margin-left: calc(var(--fu-gap) * 2 + var(--fu-rail-w) + var(--fu-side-w) + 6px);
 	}
 	html.fu-layout.fu-collapsed #id-container { margin-left: calc(var(--fu-gap) * 2 + var(--fu-rail-w) + 8px); }
 	html.fu-layout #id-right,
 	html.fu-layout .classforhorizontalscrolloftabs #id-right {
 		display: block;
 		width: auto;
-		padding: 20px 24px 28px;
+		padding: 20px 16px 28px;
 	}
 	html.fu-layout .classforhorizontalscrolloftabs #id-container { width: auto; }
 
