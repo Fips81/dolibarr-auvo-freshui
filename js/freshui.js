@@ -67,19 +67,24 @@
 		var left = document.getElementById('id-left');
 		var hasLayout = root.classList.contains('fu-layout') && top;
 
-		// Logo-Leiste über Icon-Leiste und Seitenmenü
+		// Logo-Leiste über Icon-Leiste und Seitenmenü. Daneben ist noch Platz, da
+		// landen unten Werkzeuge + Benutzermenü/Version - die Icon-Leiste bleibt frei.
+		var brandbar = null;
 		if (hasLayout && root.classList.contains('fu-brand') && window.FRESHUI && window.FRESHUI.logo) {
-			var brand = el('a', 'fu-brandbar');
-			brand.href = window.FRESHUI.home || '/';
-			brand.title = window.FRESHUI.name || '';
+			brandbar = el('div', 'fu-brandbar');
+			var home = el('a', 'fu-brandhome');
+			home.href = window.FRESHUI.home || '/';
+			home.title = window.FRESHUI.name || '';
 			var img = el('img', 'fu-brandlogo');
 			img.src = window.FRESHUI.logo;
 			img.alt = window.FRESHUI.name || '';
-			brand.appendChild(img);
-			document.body.appendChild(brand);
+			home.appendChild(img);
+			brandbar.appendChild(home);
+			brandbar.appendChild(el('div', 'fu-brandspacer'));
+			document.body.appendChild(brandbar);
 		}
 
-		// Werkzeuge in der Icon-Leiste: Dark Mode, Seitenmenü
+		// Werkzeuge: Dark Mode, Seitenmenü
 		if (hasLayout) {
 			var tools = el('div', 'fu-tools');
 			var dark = el('button', 'fu-iconbtn', ICON_MOON);
@@ -101,9 +106,16 @@
 				});
 				tools.appendChild(coll);
 			}
-			// Unten einhängen, neben Benutzermenü/Version statt als eigene Reihe
-			// darüber - das gibt der Icon-Liste mehr Platz zum Wachsen.
-			top.appendChild(tools);
+			var lb = top.querySelector('.login_block');
+			if (brandbar) {
+				// Neben das Logo in die Kopfleiste verschieben (nicht kopieren,
+				// damit die Dropdown-Logik des Benutzermenüs erhalten bleibt) -
+				// die Icon-Leiste bleibt dadurch komplett fürs Hauptmenü frei.
+				brandbar.appendChild(tools);
+				if (lb) { brandbar.appendChild(lb); }
+			} else {
+				top.appendChild(tools);
+			}
 		}
 
 		// Seitenmenü: Titel + Filter

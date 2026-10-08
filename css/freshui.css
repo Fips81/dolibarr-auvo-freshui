@@ -411,10 +411,43 @@ html.fu-on a.butAction:hover, html.fu-on button.butAction:hover, html.fu-on inpu
 		box-shadow: var(--fu-shadow);
 		z-index: 1006;
 	}
+	html.fu-layout .fu-brandhome { display: flex; align-items: center; flex: 0 0 auto; }
+	html.fu-layout .fu-brandspacer { flex: 1 1 auto; }
 	html.fu-layout.fu-collapsed .fu-brandbar { width: var(--fu-rail-w); padding: 0 8px; justify-content: center; }
+	html.fu-layout.fu-collapsed .fu-brandbar .fu-brandspacer,
+	html.fu-layout.fu-collapsed .fu-brandbar .fu-tools,
+	html.fu-layout.fu-collapsed .fu-brandbar div.login_block { display: none; }
 	html.fu-layout .fu-brandlogo { max-height: 36px; max-width: 100%; width: auto; object-fit: contain; }
 	/* Logo bleibt transparent. Für dunkle Logos im Dark Mode: unten Hintergrund aktivieren */
 	/* html.fu-dark .fu-brandlogo { background: #fff; border-radius: 8px; padding: 3px 6px; } */
+
+	/* Werkzeuge + Benutzermenü/Version neben dem Logo statt unten in der Icon-Leiste -
+	 * die bleibt dadurch komplett fürs Hauptmenü frei. Überschreibt die Grundstile
+	 * von .fu-tools/div.login_block oben (die noch als Fallback gelten, wenn die
+	 * Logo-Leiste per FRESHUI_BRAND=0 deaktiviert ist). */
+	html.fu-layout .fu-brandbar .fu-tools { padding: 0; }
+	html.fu-layout .fu-brandbar div.login_block {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		width: auto;
+		padding: 0;
+		text-align: left;
+		border-top: 0;
+	}
+	html.fu-layout .fu-brandbar div.login_block_tools:empty,
+	html.fu-layout .fu-brandbar div.login_block_other:empty { display: none; }
+	html.fu-layout .fu-brandbar div.login_block_other { flex-wrap: nowrap; gap: 6px; }
+	html.fu-layout .fu-brandbar div.login_block_other .aversion { font-size: 11px; }
+	html.fu-layout .fu-brandbar div.login_block_user { padding-top: 0; }
+	html.fu-layout .fu-brandbar div.login_block .dropdown-menu,
+	html.fu-layout .fu-brandbar .login_block .user-menu .dropdown-menu {
+		position: absolute;
+		left: auto;
+		right: 0;
+		top: calc(100% + 10px);
+		bottom: auto;
+	}
 
 	/* Kopf des Seitenmenüs */
 	html.fu-layout .fu-leftbar { position: sticky; top: -14px; z-index: 2; margin: -14px -10px 8px; padding: 14px 12px 10px; background: var(--fu-surface); }
