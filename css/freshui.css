@@ -330,11 +330,7 @@ html.fu-on a.butAction:hover, html.fu-on button.butAction:hover, html.fu-on inpu
 		background: none;
 		border-top: 1px solid var(--fu-border);
 	}
-	/* Drucken- und Favoriten(Lesezeichen)-Icon raus: in der schmalen Leiste nicht gebraucht
-	 * und sie nehmen oben wertvollen Platz für die eigentlichen Menü-Icons weg. */
-	html.fu-layout #topmenu-bookmark-dropdown { display: none !important; }
 	html.fu-layout div.login_block_other { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px; }
-	html.fu-layout div.login_block_other .login_block_elem:has(.fa-print) { display: none; }
 	html.fu-layout div.login_block_user { display: flex; justify-content: center; padding-top: 4px; }
 	html.fu-layout .atoploginusername, html.fu-layout .login_block_elem_name .dropdown-toggle > span.hidden-xs { display: none; }
 	html.fu-layout div.login_block .dropdown-menu,
@@ -390,14 +386,15 @@ html.fu-on a.butAction:hover, html.fu-on button.butAction:hover, html.fu-on inpu
 	}
 	html.fu-layout .classforhorizontalscrolloftabs #id-container { width: auto; }
 
-	/* Logo-Leiste über beiden Menüs */
+	/* Logo-Leiste über die volle Seitenbreite, über beiden Menüs UND dem Content */
 	html.fu-layout.fu-brand #id-top,
 	html.fu-layout.fu-brand .side-nav { top: calc(var(--fu-gap) * 2 + var(--fu-brand-h)); }
+	html.fu-layout.fu-brand #id-container { margin-top: calc(var(--fu-gap) * 2 + var(--fu-brand-h)); }
 	html.fu-layout .fu-brandbar {
 		position: fixed;
 		left: var(--fu-gap);
+		right: var(--fu-gap);
 		top: var(--fu-gap);
-		width: calc(var(--fu-rail-w) + var(--fu-gap) + var(--fu-side-w));
 		height: var(--fu-brand-h);
 		box-sizing: border-box;
 		display: flex;
