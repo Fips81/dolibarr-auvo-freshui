@@ -272,9 +272,28 @@ html.fu-on a.butAction:hover, html.fu-on button.butAction:hover, html.fu-on inpu
 	html.fu-layout li.tmenu:hover .mainmenu::before { color: var(--fu-text); }
 	html.fu-layout li.tmenusel .mainmenu::before { color: rgb(var(--fu-accent-rgb)); }
 
-	/* Nur Icons: der Name steht als Tooltip (title) am Icon */
-	html.fu-layout a.tmenulabel { display: none !important; }
+	/* Nur Icons (THEME_TOPMENU_DISABLE_IMAGE = Icon only, wie im Standardtheme): der Name
+	 * steht dann nur als Tooltip (title) am Icon. Bei Icon+Text oder Text only (Default)
+	 * zeigt die Leiste den Namen zusätzlich als kleines Label unter dem Icon, siehe
+	 * html.fu-layout.fu-menutext weiter unten. */
+	html.fu-layout:not(.fu-menutext) a.tmenulabel { display: none !important; }
 	html.fu-layout li.tmenusel .mainmenu::before { text-shadow: 0 0 18px rgba(var(--fu-accent-rgb), .45); }
+	html.fu-layout.fu-menutext { --fu-rail-w: 108px; }
+	html.fu-layout.fu-menutext div.tmenucenter { padding: 10px 4px; }
+	html.fu-layout.fu-menutext a.tmenulabel {
+		display: block;
+		margin-top: 3px;
+		max-width: calc(var(--fu-rail-w) - 16px);
+		font-size: 10.5px;
+		font-weight: 600;
+		line-height: 1.15;
+		color: var(--fu-muted);
+		text-align: center;
+		white-space: normal;
+		transition: color .15s;
+	}
+	html.fu-layout.fu-menutext li.tmenu:hover a.tmenulabel { color: var(--fu-text); }
+	html.fu-layout.fu-menutext li.tmenusel a.tmenulabel { color: rgb(var(--fu-accent-rgb)); }
 	html.fu-layout li.tmenucompanylogo { pointer-events: none; }
 	html.fu-layout.fu-brand li.tmenucompanylogo { display: none; }
 	html.fu-layout .menulogocontainer { margin: 2px auto 6px; max-width: 48px; height: auto; background: none; }

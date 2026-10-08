@@ -73,6 +73,10 @@ class ActionsFreshui
 			&& !(defined('NOREQUIREMENU') && constant('NOREQUIREMENU'));
 		$aurora = getDolGlobalInt('FRESHUI_AURORA', 1);
 		$brand = $layout && getDolGlobalInt('FRESHUI_BRAND', 1);
+		// Dieselbe Einstellung wie im Standardtheme (Benutzeroberfläche > Disposition du menu
+		// haut) entscheidet, ob die Icon-Leiste zusätzlich den Menünamen zeigt: 2/3/4 = "Icon only"-
+		// Varianten, 0 = Icon und Text (Default), 1 = Text only.
+		$menutext = $layout && !in_array(getDolGlobalInt('THEME_TOPMENU_DISABLE_IMAGE'), array(2, 3, 4), true);
 
 		// Logo für die Kopfleiste: kleines Firmenlogo, sonst Originallogo, sonst Dolibarr-Logo
 		$logo = '';
@@ -107,6 +111,7 @@ class ActionsFreshui
 			.($layout ? 'c.add("fu-layout");' : '')
 			.($aurora ? 'c.add("fu-aurora");' : '')
 			.($brand ? 'c.add("fu-brand");' : '')
+			.($menutext ? 'c.add("fu-menutext");' : '')
 			.'try{var m=localStorage.getItem("freshui.theme")||"'.$default.'";'
 			.'if(m==="auto"){m=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}'
 			.'if(m==="dark"){c.add("fu-dark");}'
