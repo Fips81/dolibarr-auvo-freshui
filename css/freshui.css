@@ -413,10 +413,9 @@ html.fu-on a.butAction:hover, html.fu-on button.butAction:hover, html.fu-on inpu
 	}
 	html.fu-layout .fu-brandhome { display: flex; align-items: center; flex: 0 0 auto; }
 	html.fu-layout .fu-brandspacer { flex: 1 1 auto; }
-	html.fu-layout.fu-collapsed .fu-brandbar { width: var(--fu-rail-w); padding: 0 8px; justify-content: center; }
-	html.fu-layout.fu-collapsed .fu-brandbar .fu-brandspacer,
-	html.fu-layout.fu-collapsed .fu-brandbar .fu-tools,
-	html.fu-layout.fu-collapsed .fu-brandbar div.login_block { display: none; }
+	/* Logo-Leiste bleibt immer in voller Breite, auch wenn das Seitenmenü eingeklappt
+	 * ist (fu-collapsed) - sonst wären Benutzermenü/Version/Werkzeuge nicht mehr
+	 * erreichbar, weil sie ja jetzt hier statt in der Icon-Leiste leben. */
 	html.fu-layout .fu-brandlogo { max-height: 36px; max-width: 100%; width: auto; object-fit: contain; }
 	/* Logo bleibt transparent. Für dunkle Logos im Dark Mode: unten Hintergrund aktivieren */
 	/* html.fu-dark .fu-brandlogo { background: #fff; border-radius: 8px; padding: 3px 6px; } */
