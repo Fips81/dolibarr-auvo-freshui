@@ -132,7 +132,37 @@ class ActionsFreshui
 			.'if(localStorage.getItem("freshui.collapsed")==="1"){c.add("fu-collapsed");}}catch(e){}'
 			.'window.FRESHUI='.json_encode($data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_UNESCAPED_UNICODE).';})();</script>'."\n";
 
+		$out .= $this->takeposTouchFix($nonce);
+
 		$this->resprints = $out;
 		return 0;
+	}
+
+	/**
+	 * TakePOS auf Tablets: TakePOS setzt nach jedem Antippen (Kategorie, Artikel) den
+	 * Fokus ins Suchfeld - außer bei Layout "Tablet/Telefon". iPads melden sich aber als
+	 * Mac-Desktop, also geht jedes Mal die Bildschirmtastatur auf. Auf Touch-Geräten
+	 * bekommt das Suchfeld den Fokus nur noch, wenn es selbst angetippt wurde. Inline im
+	 * Kopf (nicht in freshui.js), damit es vor TakePOS' eigenen Skripten greift und
+	 * Safari keine alte Version aus dem Cache nimmt.
+	 *
+	 * @param  string $nonce CSP-Nonce-Attribut
+	 * @return string        Script oder ''
+	 */
+	private function takeposTouchFix($nonce)
+	{
+		if (strpos($_SERVER['PHP_SELF'] ?? '', '/takepos/') === false) {
+			return '';
+		}
+		return '<script'.$nonce.'>(function(){'
+			.'if(!((navigator.maxTouchPoints||0)>1||(window.matchMedia&&matchMedia("(pointer: coarse)").matches))){return;}'
+			.'var tap=null,at=0;'
+			.'document.addEventListener("pointerdown",function(e){tap=e.target;at=Date.now();},true);'
+			.'function own(el){return tap&&(el===tap||el.contains(tap))&&Date.now()-at<1500;}'
+			.'var f=HTMLElement.prototype.focus;'
+			.'HTMLElement.prototype.focus=function(){if(this.id==="search"&&!own(this)){return;}return f.apply(this,arguments);};'
+			.'document.addEventListener("focusin",function(e){var t=e.target;if(t&&t.id==="search"&&!own(t)){t.blur();}},true);'
+			.'document.addEventListener("DOMContentLoaded",function(){window.setFocusOnSearchField=function(){};});'
+			.'})();</script>'."\n";
 	}
 }
