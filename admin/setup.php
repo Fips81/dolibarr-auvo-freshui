@@ -40,6 +40,8 @@ if ($action == 'update') {
 	dolibarr_set_const($db, 'FRESHUI_BRAND', GETPOSTINT('FRESHUI_BRAND') ? 1 : 0, 'chaine', 0, '', $conf->entity);
 	dolibarr_set_const($db, 'FRESHUI_LOGIN', GETPOSTINT('FRESHUI_LOGIN') ? 1 : 0, 'chaine', 0, '', $conf->entity);
 	dolibarr_set_const($db, 'FRESHUI_AURORA', GETPOSTINT('FRESHUI_AURORA') ? 1 : 0, 'chaine', 0, '', $conf->entity);
+	dolibarr_set_const($db, 'FRESHUI_PALETTE', GETPOSTINT('FRESHUI_PALETTE') ? 1 : 0, 'chaine', 0, '', $conf->entity);
+	dolibarr_set_const($db, 'FRESHUI_LISTFIT', GETPOSTINT('FRESHUI_LISTFIT') ? 1 : 0, 'chaine', 0, '', $conf->entity);
 	setEventMessages($langs->trans("SetupSaved"), null, 'mesgs');
 	header('Location: '.$_SERVER['PHP_SELF']);
 	exit;
@@ -70,6 +72,12 @@ print '<input type="checkbox" name="FRESHUI_LOGIN" value="1"'.(getDolGlobalInt('
 
 print '<tr class="oddeven"><td>'.$langs->trans("FreshuiAurora").'</td><td>';
 print '<input type="checkbox" name="FRESHUI_AURORA" value="1"'.(getDolGlobalInt('FRESHUI_AURORA', 1) ? ' checked' : '').'></td></tr>';
+
+print '<tr class="oddeven"><td>'.$langs->trans("FreshuiListfit").'<br><span class="opacitymedium small">'.$langs->trans("FreshuiListfitHelp").'</span></td><td>';
+print '<input type="checkbox" name="FRESHUI_LISTFIT" value="1"'.(getDolGlobalInt('FRESHUI_LISTFIT', 1) ? ' checked' : '').'></td></tr>';
+
+print '<tr class="oddeven"><td>'.$langs->trans("FreshuiPalette").'<br><span class="opacitymedium small">'.$langs->trans("FreshuiPaletteHelp").'</span></td><td>';
+print '<input type="checkbox" name="FRESHUI_PALETTE" value="1"'.(getDolGlobalInt('FRESHUI_PALETTE', 1) ? ' checked' : '').'></td></tr>';
 
 print '<tr class="oddeven"><td>'.$langs->trans("FreshuiDarkDefault").'<br><span class="opacitymedium small">'.$langs->trans("FreshuiDarkDefaultHelp").'</span></td><td>';
 print '<select name="FRESHUI_DARK_DEFAULT">';

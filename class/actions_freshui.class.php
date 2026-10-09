@@ -77,6 +77,8 @@ class ActionsFreshui
 		// haut) entscheidet, ob die Icon-Leiste zusätzlich den Menünamen zeigt: 2/3/4 = "Icon only"-
 		// Varianten, 0 = Icon und Text (Default), 1 = Text only.
 		$menutext = $layout && !in_array(getDolGlobalInt('THEME_TOPMENU_DISABLE_IMAGE'), array(2, 3, 4), true);
+		$listfit = $layout && getDolGlobalInt('FRESHUI_LISTFIT', 1);
+		$palette = getDolGlobalInt('FRESHUI_PALETTE', 1) && !empty($conf->use_javascript_ajax);
 
 		// Logo für die Kopfleiste: kleines Firmenlogo, sonst Originallogo, sonst Dolibarr-Logo
 		$logo = '';
@@ -103,8 +105,18 @@ class ActionsFreshui
 			'dark' => $langs->transnoentities('FreshuiToggleDark'),
 			'collapse' => $langs->transnoentities('FreshuiToggleSidebar'),
 		);
+		if ($palette) {
+			foreach (array('search' => 'Search', 'searchPh' => 'FreshuiSearchPlaceholder', 'searchIn' => 'FreshuiSearchIn',
+				'goTo' => 'FreshuiSearchGoTo', 'none' => 'FreshuiSearchNone', 'nav' => 'FreshuiSearchNavigate',
+				'open' => 'FreshuiSearchOpen', 'newTab' => 'FreshuiSearchNewTab', 'close' => 'FreshuiSearchClose') as $k => $key) {
+				$labels[$k] = $langs->transnoentities($key, '%s');
+			}
+		}
 		$data = array('labels' => $labels, 'logo' => $logo, 'home' => DOL_URL_ROOT.'/index.php?mainmenu=home&leftmenu=home');
 		$data['name'] = getDolGlobalString('MAIN_INFO_SOCIETE_NOM');
+		if ($palette) {
+			$data['search'] = dol_buildpath('/freshui/ajax/search.php', 1);
+		}
 
 		$out = '<style'.$nonce.'>html.fu-on{--fu-accent:'.$accent.';--fu-accent-rgb:'.$r.','.$g.','.$b.';--fu-accent-strong:'.$strong.';}</style>'."\n";
 		$out .= '<script'.$nonce.'>(function(){var d=document.documentElement,c=d.classList;c.add("fu-on");'
@@ -112,6 +124,8 @@ class ActionsFreshui
 			.($aurora ? 'c.add("fu-aurora");' : '')
 			.($brand ? 'c.add("fu-brand");' : '')
 			.($menutext ? 'c.add("fu-menutext");' : '')
+			.($listfit ? 'c.add("fu-listfit");' : '')
+			.($palette ? 'c.add("fu-palette");' : '')
 			.'try{var m=localStorage.getItem("freshui.theme")||"'.$default.'";'
 			.'if(m==="auto"){m=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}'
 			.'if(m==="dark"){c.add("fu-dark");}'

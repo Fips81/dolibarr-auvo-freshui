@@ -410,6 +410,44 @@ html.fu-on a.butAction:hover, html.fu-on button.butAction:hover, html.fu-on inpu
 	}
 	html.fu-layout .fu-brandhome { display: flex; align-items: center; flex: 0 0 auto; }
 	html.fu-layout .fu-brandspacer { flex: 1 1 auto; }
+	/* Globale Suche in der Mitte der Logo-Leiste (aus dem Seitenmenü verschoben) */
+	html.fu-layout .fu-brandsearch { display: flex; justify-content: center; min-width: 0; padding: 0 18px; }
+	html.fu-layout .fu-brandsearch #blockvmenusearch {
+		width: 100%;
+		max-width: 460px;
+		margin: 0;
+		padding: 0;
+		background: none;
+		border: 0;
+		box-shadow: none;
+	}
+	/* eldy fixiert das Feld auf die Seitenmenü-Breite (.vmenusearchselectcombo,
+	 * per containerCssClass auch auf der Select2-Auswahl); Höhe 38px bleibt. */
+	html.fu-layout .fu-brandsearch .select2-container,
+	html.fu-layout .fu-brandsearch .vmenusearchselectcombo { width: 100% !important; box-sizing: border-box; }
+	html.fu-layout .fu-brandsearch .select2-selection { background: var(--inputbackgroundcolor); }
+	/* Mit Such-Palette: eigenes Feld als Auslöser, Original-Suche im Menü ausblenden */
+	html.fu-searchmoved #blockvmenusearch { display: none !important; }
+	html.fu-layout .fu-searchtrigger {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		width: 100%;
+		max-width: 460px;
+		height: 38px;
+		padding: 0 8px 0 12px;
+		border: 1px solid var(--fu-border-strong);
+		border-radius: 11px;
+		background: var(--fu-card);
+		color: var(--fu-muted);
+		font: 14px var(--fu-font);
+		cursor: text;
+		transition: border-color .15s, box-shadow .15s;
+	}
+	html.fu-layout .fu-searchtrigger:hover { border-color: rgb(var(--fu-accent-rgb)); }
+	html.fu-layout .fu-searchtrigger:focus-visible { outline: none; border-color: rgb(var(--fu-accent-rgb)); box-shadow: 0 0 0 3px rgba(var(--fu-accent-rgb), .2); }
+	html.fu-layout .fu-searchtrigger svg { flex: 0 0 auto; }
+	html.fu-layout .fu-searchph { flex: 1 1 auto; min-width: 0; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 	/* Logo-Leiste bleibt immer in voller Breite, auch wenn das Seitenmenü eingeklappt
 	 * ist (fu-collapsed) - sonst wären Benutzermenü/Version/Werkzeuge nicht mehr
 	 * erreichbar, weil sie ja jetzt hier statt in der Icon-Leiste leben. */
@@ -479,6 +517,36 @@ html.fu-on a.butAction:hover, html.fu-on button.butAction:hover, html.fu-on inpu
 	html.fu-layout div.menu_contenu:hover { background: var(--fu-hover); }
 	html.fu-layout div.menu_contenu a, html.fu-layout div.menu_titre a { color: var(--fu-text); }
 	html.fu-layout .fu-hidden { display: none !important; }
+}
+
+/* Select2 versteckt das Original-<select> eines Filters mit margin:-10000px. In
+ * Zellen mit direction:rtl (Dolibarr: Filter am rechten Seitenrand) schiebt das
+ * das Feld 10000px nach RECHTS - jede Liste wird dadurch unsichtbar ~10000px
+ * breit scrollbar. Es bleibt auch ohne Margin unsichtbar (1px, clip-path). */
+html.fu-on div.div-table-responsive .select2-hidden-accessible,
+html.fu-on div.div-table-responsive-no-min .select2-hidden-accessible {
+	margin: 0 !important;
+}
+
+/* ---------- Listen auf Bildschirmhöhe (html.fu-listfit) ----------
+ * freshui.js markiert die eine Liste einer Listenseite mit .fu-listbox und setzt
+ * ihre max-height auf den Platz bis zum Fensterrand: sie scrollt dann in sich in
+ * beide Richtungen, die horizontale Scrollleiste ist immer sichtbar statt erst
+ * am Ende einer langen Liste, und Kopf-/Filterzeile bleiben oben stehen. */
+@media (min-width: 1001px) {
+	html.fu-layout.fu-listfit div.div-table-responsive.fu-listbox {
+		overflow: auto;
+		min-height: 0;
+		overscroll-behavior: contain;
+	}
+	html.fu-layout.fu-listfit .fu-listbox tr.liste_titre > td,
+	html.fu-layout.fu-listfit .fu-listbox tr.liste_titre > th,
+	html.fu-layout.fu-listfit .fu-listbox tr.liste_titre_filter > td,
+	html.fu-layout.fu-listfit .fu-listbox tr.liste_titre_filter > th {
+		position: sticky;
+		z-index: 3;
+		background: var(--fu-card);
+	}
 }
 
 /* ---------- Anmeldeseite (html.fu-login, vom Hook im Kontext mainloginpage gesetzt) ---------- */
@@ -627,4 +695,139 @@ html.fu-login .login_main_home { max-width: none !important; width: auto; }
 @media (max-width: 900px) {
 	html.fu-login body.bodylogin::before, html.fu-login .fu-loginbrand { display: none; }
 	html.fu-login .login_center { width: 100%; margin-left: 0; }
+}
+
+/* Such-Palette (globale Suche) */
+html.fu-cmdk-open, html.fu-cmdk-open body { overflow: hidden; }
+.fu-cmdk-back {
+	position: fixed;
+	inset: 0;
+	z-index: 100050;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	padding: max(8vh, env(safe-area-inset-top, 0px)) 16px 16px;
+	background: rgba(15, 18, 25, .3);
+	-webkit-backdrop-filter: blur(6px);
+	backdrop-filter: blur(6px);
+	animation: fu-cmdk-fade .12s ease-out;
+}
+.fu-cmdk {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-width: 640px;
+	max-height: min(600px, 84vh);
+	overflow: hidden;
+	background: var(--fu-card, #fff);
+	color: var(--fu-text, #1f2430);
+	border: 1px solid var(--fu-border, rgba(15, 23, 42, .08));
+	border-radius: 18px;
+	box-shadow: 0 24px 70px rgba(15, 23, 42, .28), 0 2px 8px rgba(15, 23, 42, .08);
+	font: 14px var(--fu-font, system-ui, sans-serif);
+	animation: fu-cmdk-pop .14s ease-out;
+}
+.fu-cmdk-back[hidden] { display: none !important; }
+@keyframes fu-cmdk-fade { from { opacity: 0; } }
+@keyframes fu-cmdk-pop { from { opacity: 0; transform: translateY(-6px) scale(.985); } }
+.fu-cmdk-head {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 14px 18px;
+	border-bottom: 2px solid rgb(var(--fu-accent-rgb, 0, 160, 160));
+	color: var(--fu-muted, #6b7280);
+}
+.fu-cmdk-head svg { flex: 0 0 auto; width: 20px; height: 20px; }
+.fu-cmdk.fu-busy .fu-cmdk-head svg { animation: fu-cmdk-pulse .8s ease-in-out infinite alternate; }
+@keyframes fu-cmdk-pulse { to { opacity: .35; } }
+html.fu-on .fu-cmdk .fu-cmdk-input, .fu-cmdk .fu-cmdk-input {
+	flex: 1 1 auto;
+	min-width: 0;
+	height: 30px;
+	padding: 0;
+	margin: 0;
+	border: 0 !important;
+	outline: none;
+	box-shadow: none !important;
+	background: transparent;
+	color: var(--fu-text, #1f2430);
+	font: 18px var(--fu-font, system-ui, sans-serif);
+}
+.fu-cmdk .fu-kbd {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 12px;
+	height: 18px;
+	padding: 0 6px;
+	border: 1px solid var(--fu-border-strong, rgba(15, 23, 42, .18));
+	border-bottom-width: 2px;
+	border-radius: 6px;
+	background: var(--fu-card, #fff);
+	color: var(--fu-muted, #6b7280);
+	font: 600 11px var(--fu-font, system-ui, sans-serif);
+	white-space: nowrap;
+}
+.fu-cmdk-head .fu-kbd { cursor: pointer; }
+.fu-cmdk-list { flex: 1 1 auto; overflow-y: auto; overscroll-behavior: contain; padding: 6px 8px 10px; }
+.fu-cmdk-sec {
+	padding: 14px 12px 6px;
+	color: var(--fu-muted, #6b7280);
+	font-size: 11.5px;
+	font-weight: 650;
+	letter-spacing: .06em;
+	text-transform: uppercase;
+}
+.fu-cmdk-none { padding: 14px 12px 4px; color: var(--fu-muted, #6b7280); }
+html.fu-on .fu-cmdk a.fu-cmdk-item, .fu-cmdk a.fu-cmdk-item {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 7px 12px;
+	border-radius: 10px;
+	border-left: 3px solid transparent;
+	color: var(--fu-text, #1f2430);
+	text-decoration: none;
+}
+.fu-cmdk a.fu-cmdk-item.fu-active { background: rgba(var(--fu-accent-rgb, 0, 160, 160), .12); border-left-color: rgb(var(--fu-accent-rgb, 0, 160, 160)); }
+.fu-cmdk-icon {
+	flex: 0 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 30px;
+	height: 30px;
+	border: 1px solid var(--fu-border, rgba(15, 23, 42, .08));
+	border-radius: 8px;
+	background: var(--fu-card, #fff);
+	color: var(--fu-accent-strong, #007a7a);
+}
+.fu-cmdk-icon .pictofixedwidth { width: auto; margin: 0; padding: 0; text-align: center; }
+.fu-cmdk-txt { display: flex; flex-direction: column; min-width: 0; flex: 1 1 auto; }
+.fu-cmdk-title, .fu-cmdk-sub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fu-cmdk-hit .fu-cmdk-title { font-weight: 600; }
+.fu-cmdk-sub { color: var(--fu-muted, #6b7280); font-size: 12.5px; }
+.fu-cmdk-off .fu-cmdk-title { color: var(--fu-muted, #6b7280); text-decoration: line-through; text-decoration-thickness: 1px; }
+.fu-cmdk mark { background: none; color: inherit; text-decoration: underline; text-decoration-color: rgb(var(--fu-accent-rgb, 0, 160, 160)); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.fu-cmdk .fu-cmdk-enter { visibility: hidden; flex: 0 0 auto; }
+.fu-cmdk .fu-cmdk-item.fu-active .fu-cmdk-enter { visibility: visible; }
+.fu-cmdk-foot {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px 18px;
+	padding: 10px 16px;
+	border-top: 1px solid var(--fu-border, rgba(15, 23, 42, .08));
+	background: rgba(127, 127, 127, .05);
+	color: var(--fu-muted, #6b7280);
+	font-size: 12.5px;
+}
+.fu-cmdk-hint { display: inline-flex; align-items: center; gap: 4px; }
+.fu-cmdk-hint > span { margin-left: 3px; }
+html.fu-dark .fu-cmdk-back { background: rgba(0, 0, 0, .45); }
+html.fu-dark .fu-cmdk { box-shadow: 0 24px 70px rgba(0, 0, 0, .6); }
+@media (max-width: 600px) {
+	.fu-cmdk-back { padding: 0; }
+	.fu-cmdk { max-width: none; max-height: 100%; height: 100%; border-radius: 0; }
+	.fu-cmdk-foot { display: none; }
 }
