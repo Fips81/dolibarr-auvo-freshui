@@ -1,0 +1,465 @@
+/* FreshUI - modernes Design für TakePOS (Kasse). Wird nur auf /takepos/-Seiten geladen,
+ * nach TakePOS' eigenen Styles (pos.css.php, colorful.css). Eigenentwicklung, GPL v3+. */
+
+html.fu-tp {
+	--tp-gap: 8px;
+	--tp-radius: 16px;
+	--tp-key: var(--fu-card);
+	--tp-key-border: var(--fu-border-strong);
+	--tp-solid: var(--fu-accent-strong);
+	--tp-tint: rgba(var(--fu-accent-rgb), .13);
+	--tp-tint-strong: rgba(var(--fu-accent-rgb), .24);
+	--tp-warn: #b45309;
+	--tp-warn-bg: rgba(245, 158, 11, .15);
+	--tp-danger: #dc2626;
+	--tp-danger-bg: rgba(239, 68, 68, .12);
+	--tp-shadow: 0 1px 2px rgba(15, 23, 42, .05), 0 6px 18px rgba(15, 23, 42, .06);
+}
+html.fu-tp.fu-dark {
+	--tp-key: #252933;
+	--tp-warn: #fbbf24;
+	--tp-danger: #f87171;
+	--tp-shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 6px 18px rgba(0, 0, 0, .3);
+}
+
+html.fu-tp body.bodytakepos {
+	background:
+		radial-gradient(900px 520px at 0% -10%, rgba(var(--fu-accent-rgb), .14), transparent 60%),
+		var(--fu-bg);
+	color: var(--fu-text);
+	font-family: var(--fu-font);
+	-webkit-tap-highlight-color: transparent;
+}
+html.fu-tp body.bodytakepos button { font-family: var(--fu-font); -webkit-user-select: none; user-select: none; }
+html.fu-tp button:active { background: var(--fu-hover); color: inherit; }
+
+/* ---------- Kopfleiste ---------- */
+html.fu-tp .header {
+	background: none !important;
+	min-height: 0;
+	padding: var(--tp-gap) var(--tp-gap) 0;
+	box-sizing: border-box;
+}
+html.fu-tp .topnav {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	min-height: 54px;
+	height: auto;
+	padding: 0 8px 0 10px;
+	background: var(--fu-card) !important;
+	border: 1px solid var(--fu-border);
+	border-radius: var(--tp-radius);
+	box-shadow: var(--tp-shadow);
+	overflow: visible;
+}
+html.fu-tp .topnav-left, html.fu-tp .topnav-right {
+	float: none;
+	display: flex;
+	align-items: center;
+	min-width: 0;
+}
+html.fu-tp .topnav-left { flex: 1 1 auto; flex-wrap: wrap; gap: 2px 6px; }
+html.fu-tp .topnav-right { flex: 0 0 auto; gap: 8px; }
+html.fu-tp .topnav a { color: var(--fu-text); float: none; }
+html.fu-tp .topnav-left a {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin: 0;
+	padding: 8px 10px;
+	border-radius: 10px;
+	font-weight: 550;
+}
+html.fu-tp .topnav-left a.topnav-terminalhour .fa { color: var(--fu-accent-strong); }
+html.fu-tp .topnav-left a:hover:not(.nohover),
+html.fu-tp .topnav .login_block_other a:hover:not(.nohover) { background: var(--fu-hover); color: var(--fu-text); }
+html.fu-tp div#moreinfo, html.fu-tp div#infowarehouse { color: var(--fu-muted); }
+html.fu-tp #shoppingcart a, html.fu-tp #customerandsales a { color: var(--fu-text); }
+html.fu-tp .basketselected { background: var(--tp-tint); color: var(--fu-accent-strong) !important; }
+
+html.fu-tp .login_block_other.takepos { display: flex; align-items: center; gap: 4px; margin: 0; }
+html.fu-tp .topnav input#search[type="text"] {
+	float: none;
+	width: 260px;
+	max-width: 32vw;
+	height: 38px;
+	margin: 0 4px 0 0;
+	padding: 0 14px;
+	font-size: 15px;
+	color: var(--fu-text);
+	background: var(--fu-bg);
+	border: 1px solid var(--fu-border-strong) !important;
+	border-radius: 999px;
+	box-shadow: none;
+}
+html.fu-tp .topnav input#search[type="text"]:focus {
+	outline: none;
+	border-color: rgb(var(--fu-accent-rgb)) !important;
+	box-shadow: 0 0 0 3px rgba(var(--fu-accent-rgb), .2);
+}
+html.fu-tp .topnav .login_block_other a {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 38px;
+	height: 38px;
+	margin: 0;
+	padding: 0;
+	font-size: 16px;
+	border-radius: 10px;
+	color: var(--fu-muted);
+}
+html.fu-tp .topnav div.login_block_user { height: auto; line-height: normal; }
+html.fu-tp .topnav div.login_block_user a { color: var(--fu-text); }
+
+/* ---------- Raster: Bon | Ziffernblock | Aktionen, darunter Kategorien | Artikel ---------- */
+@media (min-width: 768px) {
+	html.fu-tp .row1, html.fu-tp .row1withhead, html.fu-tp .row2, html.fu-tp .row2withhead {
+		display: flex;
+		gap: var(--tp-gap);
+		padding: var(--tp-gap) var(--tp-gap) 0;
+		box-sizing: border-box;
+	}
+	html.fu-tp .row1withhead { height: calc(45% - 64px); }
+	html.fu-tp .row2withhead { height: 55%; padding-bottom: var(--tp-gap); overflow: hidden; }
+	html.fu-tp .row2 { padding-bottom: var(--tp-gap); }
+	html.fu-tp .div1, html.fu-tp .div2, html.fu-tp .div3, html.fu-tp .div4, html.fu-tp .div5 {
+		float: none;
+		width: auto;
+		min-width: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+	html.fu-tp .div1 { flex: 34 1 0; }
+	html.fu-tp .div2 { flex: 30 1 0; }
+	html.fu-tp .div3 { flex: 36 1 0; }
+	html.fu-tp .div4 { flex: 34 1 0; }
+	html.fu-tp .div5 { flex: 66 1 0; }
+	html.fu-tp .div5.centpercent { flex-basis: 100%; }
+
+	/* Ziffernblock und Aktionen als Raster mit Abstand */
+	html.fu-tp .div2, html.fu-tp .div3 {
+		display: grid;
+		grid-auto-rows: minmax(0, 1fr);
+		gap: 6px;
+		font-size: 14px;
+	}
+	html.fu-tp .div2 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+	html.fu-tp .div3 { grid-template-columns: repeat(3, minmax(0, 1fr)); align-content: stretch; }
+	html.fu-tp .div2 > button, html.fu-tp .div3 > button { width: auto !important; height: auto !important; margin: 0 !important; min-height: 0; }
+	html.fu-tp .div3 > div { grid-column: 1 / -1; }
+
+	/* Kategorien und Artikel als Kachelraster */
+	html.fu-tp .div4, html.fu-tp .div5 {
+		display: grid;
+		grid-auto-rows: minmax(0, 1fr);
+		gap: var(--tp-gap);
+		font-size: 13px;
+	}
+	html.fu-tp .div4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+	html.fu-tp .div5 { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+	html.fu-tp .div5.centpercent { grid-template-columns: repeat(10, minmax(0, 1fr)); }
+	html.fu-tp div.wrapper, html.fu-tp div.wrapper2 { width: auto; height: auto; float: none; }
+}
+
+/* ---------- Bon ---------- */
+html.fu-tp #poslines {
+	background: var(--fu-card);
+	border: 1px solid var(--fu-border);
+	border-radius: var(--tp-radius);
+	box-shadow: var(--tp-shadow);
+	overflow: auto;
+	text-align: left;
+}
+html.fu-tp #poslines .invoice { margin: 0; }
+html.fu-tp #poslines table.postablelines { border: 0; box-shadow: none; border-radius: 0; background: none; margin: 0; }
+html.fu-tp #poslines table.postablelines tr.liste_titre td {
+	position: sticky;
+	top: 0;
+	z-index: 2;
+	padding: 10px 12px;
+	background: var(--fu-card);
+	border-bottom: 1px solid var(--fu-border);
+	color: var(--fu-muted);
+	font-size: 12px;
+	font-weight: 600;
+	text-transform: none;
+}
+html.fu-tp #poslines #linecolht-span-total {
+	color: var(--fu-text);
+	font-size: 22px !important;
+	font-weight: 750 !important;
+	letter-spacing: -.01em;
+}
+html.fu-tp #poslines tr.posinvoiceline td, html.fu-tp #poslines tr.oddeven td {
+	height: 44px !important;
+	padding: 6px 12px;
+	background: transparent;
+	border-bottom: 1px solid var(--fu-border);
+	color: var(--fu-text);
+	font-size: 14px;
+}
+html.fu-tp #poslines tr.posinvoiceline:hover td { background: var(--fu-hover); }
+html.fu-tp #poslines tr.selected td, html.fu-tp tr.selected, html.fu-tp tr.selected td {
+	background: var(--tp-tint) !important;
+	color: var(--fu-text) !important;
+	box-shadow: inset 3px 0 0 rgb(var(--fu-accent-rgb));
+}
+html.fu-tp #poslines tr.selected td + td { box-shadow: none; }
+
+/* ---------- Tasten (Ziffernblock, auch im Bezahlfenster) ---------- */
+html.fu-tp button.calcbutton, html.fu-tp button.calcbutton2, html.fu-tp button.calcbutton3 {
+	border: 1px solid var(--tp-key-border);
+	border-bottom-width: 2px;
+	border-radius: 12px;
+	box-shadow: none;
+	transition: transform .06s, background-color .12s, box-shadow .12s;
+	touch-action: manipulation;
+}
+html.fu-tp button.calcbutton {
+	background: var(--tp-key) !important;
+	color: var(--fu-text) !important;
+	font-size: 22px;
+	font-weight: 650;
+}
+html.fu-tp button.calcbutton2 {
+	background: var(--tp-tint) !important;
+	color: var(--fu-accent-strong) !important;
+	border-color: rgba(var(--fu-accent-rgb), .35);
+	font-size: 13px;
+	font-weight: 700;
+}
+html.fu-tp.fu-dark button.calcbutton2 { color: rgb(var(--fu-accent-rgb)) !important; }
+html.fu-tp button.calcbutton2.clicked {
+	background: var(--tp-solid) !important;
+	border-color: var(--tp-solid);
+	color: #fff !important;
+}
+html.fu-tp button.calcbutton.poscolorblue {
+	background: var(--tp-warn-bg) !important;
+	border-color: rgba(245, 158, 11, .4);
+	color: var(--tp-warn) !important;
+}
+html.fu-tp button.calcbutton2.poscolordelete {
+	background: var(--tp-danger-bg) !important;
+	border-color: rgba(239, 68, 68, .35);
+	color: var(--tp-danger) !important;
+}
+html.fu-tp button.calcbutton2.poscolordelete .fa-trash { color: var(--tp-danger) !important; }
+html.fu-tp .fa.fa-trash:before { font-size: 1.25em; }
+html.fu-tp button.calcbutton:active, html.fu-tp button.calcbutton2:active, html.fu-tp button.calcbutton3:active,
+html.fu-tp button.actionbutton:active, html.fu-tp div.wrapper:active, html.fu-tp div.wrapper2:active {
+	transform: scale(.96);
+}
+html.fu-tp button.calcbutton:active { background: var(--fu-hover) !important; }
+html.fu-tp button.calcbutton2.disabled { opacity: .45; }
+
+/* ---------- Aktionen ---------- */
+html.fu-tp button.actionbutton {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	padding: 6px 8px;
+	background: var(--tp-key) !important;
+	color: var(--fu-text) !important;
+	border: 1px solid var(--fu-border-strong);
+	border-radius: 12px;
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.2;
+	transition: transform .06s, background-color .12s;
+	touch-action: manipulation;
+}
+html.fu-tp button.actionbutton > .fa, html.fu-tp button.actionbutton > .fas, html.fu-tp button.actionbutton > .far {
+	padding: 0;
+	font-size: 19px;
+	color: var(--fu-accent-strong);
+}
+html.fu-tp.fu-dark button.actionbutton > .fa, html.fu-tp.fu-dark button.actionbutton > .fas, html.fu-tp.fu-dark button.actionbutton > .far { color: rgb(var(--fu-accent-rgb)); }
+html.fu-tp button.actionbutton .trunc { max-width: 100%; }
+html.fu-tp button.actionbutton:hover { background: var(--fu-hover) !important; }
+/* Bezahlen hervorheben */
+html.fu-tp button.actionbutton[onclick^="CloseBill"] {
+	background: var(--tp-solid) !important;
+	border-color: var(--tp-solid);
+	color: #fff !important;
+	box-shadow: 0 6px 16px rgba(var(--fu-accent-rgb), .3);
+}
+html.fu-tp button.actionbutton[onclick^="CloseBill"] > .far { color: #fff; }
+html.fu-tp button.actionbutton[onclick^="DirectPayment"] { background: var(--tp-tint) !important; border-color: rgba(var(--fu-accent-rgb), .35); }
+
+/* ---------- Kategorie- und Artikelkacheln ---------- */
+html.fu-tp div.wrapper, html.fu-tp div.wrapper2 {
+	position: relative;
+	padding: 0;
+	overflow: hidden;
+	background: var(--fu-card);
+	border: 1px solid var(--fu-border);
+	border-radius: 14px;
+	box-shadow: var(--tp-shadow);
+	cursor: pointer;
+	transition: transform .06s, box-shadow .15s, border-color .15s;
+	touch-action: manipulation;
+}
+html.fu-tp div.wrapper:hover, html.fu-tp div.wrapper2:hover { border-color: rgba(var(--fu-accent-rgb), .55); }
+html.fu-tp img.imgwrapper {
+	width: 100%;
+	height: 100%;
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+	padding: 8px 8px 34px;
+	box-sizing: border-box;
+}
+html.fu-tp div.description {
+	padding: 6px 8px 7px;
+	background: var(--fu-card);
+	background: color-mix(in srgb, var(--fu-card) 92%, transparent);
+	border-top: 1px solid var(--fu-border);
+	color: var(--fu-text);
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.25;
+}
+html.fu-tp div.description_content { padding: 0; }
+html.fu-tp .productprice {
+	top: 7px;
+	right: 7px;
+	z-index: 1;
+	padding: 3px 9px;
+	background: var(--tp-solid);
+	color: #fff;
+	font-size: 12.5px;
+	font-weight: 700;
+	border-radius: 999px;
+	opacity: 1;
+	box-shadow: 0 2px 6px rgba(15, 23, 42, .15);
+}
+html.fu-tp div.catwatermark {
+	top: 7px;
+	left: 7px;
+	width: auto;
+	padding: 0 7px;
+	background: var(--tp-tint-strong);
+	color: var(--fu-accent-strong);
+	font-size: 13px;
+	font-weight: 800;
+	line-height: 18px;
+	border-radius: 999px;
+	opacity: 1;
+}
+/* Gewählte Kategorie */
+html.fu-tp .div4 div.wrapper.fu-active {
+	border-color: rgb(var(--fu-accent-rgb));
+	box-shadow: 0 0 0 2px rgba(var(--fu-accent-rgb), .45), var(--tp-shadow);
+}
+html.fu-tp .div4 div.wrapper.fu-active div.description { background: var(--tp-tint-strong); }
+/* Unterkategorien im Artikelraster als "Ordner" */
+html.fu-tp .div5 div.wrapper2[data-iscat="1"] { background: var(--tp-tint); border-style: dashed; border-color: rgba(var(--fu-accent-rgb), .5); }
+/* Leere Plätze */
+html.fu-tp div.wrapper.divempty, html.fu-tp div.wrapper2.divempty {
+	background: transparent;
+	border: 1px dashed var(--fu-border);
+	box-shadow: none;
+	cursor: default;
+}
+html.fu-tp div.divempty img, html.fu-tp div.divempty .description, html.fu-tp div.divempty .catwatermark { visibility: hidden; }
+/* Ohne Produktfoto: Anfangsbuchstabe statt grauem Platzhalterbild */
+html.fu-tp div.fu-nophoto img.imgwrapper { visibility: hidden; }
+html.fu-tp div.fu-nophoto::before {
+	content: attr(data-initial);
+	position: absolute;
+	left: 50%;
+	top: calc(50% - 16px);
+	transform: translate(-50%, -50%);
+	width: 52px;
+	height: 52px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	background: var(--tp-tint);
+	color: var(--fu-accent-strong);
+	font-size: 22px;
+	font-weight: 750;
+}
+/* Blättern-Kacheln */
+html.fu-tp div.wrapper .centerinmiddle, html.fu-tp div.wrapper2 .centerinmiddle {
+	font-size: 26px !important;
+	color: var(--fu-muted);
+}
+html.fu-tp div.wrapper2.arrow, html.fu-tp .div4 div.wrapper:nth-last-child(-n+2) { background: var(--fu-bg); box-shadow: none; }
+html.fu-tp div.productbutton, html.fu-tp button.productbutton {
+	background: var(--tp-key) !important;
+	color: var(--fu-text) !important;
+	border-radius: 12px;
+	font-size: 14px;
+}
+
+/* ---------- Dialoge (Terminal, Notiz, Gutschrift ...) ---------- */
+html.fu-tp .modal { background: rgba(15, 18, 25, .38); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+html.fu-tp .modal-content {
+	overflow: hidden;
+	background: var(--fu-card);
+	color: var(--fu-text);
+	border: 1px solid var(--fu-border);
+	border-radius: 18px;
+	box-shadow: 0 24px 70px rgba(15, 23, 42, .28);
+}
+html.fu-tp .modal-header {
+	padding: 6px 18px;
+	background: none;
+	color: var(--fu-text);
+	border-bottom: 2px solid rgb(var(--fu-accent-rgb));
+}
+html.fu-tp .modal-body { padding: 12px 16px 16px; }
+html.fu-tp .modal .close { color: var(--fu-muted); }
+html.fu-tp .block {
+	margin: 6px 0;
+	padding: 14px 0;
+	background: var(--tp-key);
+	color: var(--fu-text);
+	border: 1px solid var(--fu-border-strong);
+	border-radius: 12px;
+	font-weight: 600;
+}
+html.fu-tp .block:hover { background: var(--fu-hover); }
+html.fu-tp input.block { padding: 12px; box-sizing: border-box; }
+html.fu-tp #dialogforpopuptakepos { background: var(--fu-text) !important; color: var(--fu-card) !important; border-radius: 12px !important; }
+
+/* Popups (Bezahlen, Verlauf, Kunde ...) */
+html.fu-tp #cboxOverlay { background: rgba(15, 18, 25, .45); }
+html.fu-tp #cboxContent, html.fu-tp #cboxLoadedContent { background: var(--fu-card); border-radius: 18px; overflow: hidden; }
+html.fu-tp #cboxTitle { color: var(--fu-muted); font-weight: 600; }
+
+/* ---------- Bezahlfenster (pay.php) ---------- */
+html.fu-tp div.paymentbordline {
+	width: calc(50% - 14px);
+	margin: 0 3px 6px;
+	padding: 8px 10px;
+	background: var(--fu-bg);
+	border: 1px solid var(--fu-border);
+	border-radius: 12px;
+	box-sizing: border-box;
+}
+html.fu-tp div.paymentbordline .colorwhite { color: var(--fu-text); }
+html.fu-tp div.paymentbordline .colorred { color: var(--tp-danger); }
+html.fu-tp div.paymentbordlinetotal { background: var(--tp-solid); border-color: var(--tp-solid); }
+html.fu-tp div.paymentbordlinetotal .colorwhite { color: #fff; }
+html.fu-tp .takepospay { font-size: 1.25em; font-weight: 650; }
+html.fu-tp body:not(.bodytakepos) button.calcbutton,
+html.fu-tp body:not(.bodytakepos) button.calcbutton2,
+html.fu-tp body:not(.bodytakepos) button.calcbutton3 { width: calc(25% - 6px); margin: 3px; }
+
+/* ---------- Smartphone: TakePOS' eigenes Listenlayout behalten, nur Farben ---------- */
+@media (max-width: 767px) {
+	html.fu-tp .topnav { flex-wrap: wrap; padding: 6px; }
+	html.fu-tp .topnav input#search[type="text"] { width: 140px; }
+	html.fu-tp img.imgwrapper { padding: 2px; }
+	html.fu-tp div.fu-nophoto::before { display: none; }
+	html.fu-tp div.wrapper, html.fu-tp div.wrapper2 { border-radius: 10px; margin: 2px 0; }
+}

@@ -133,9 +133,31 @@ class ActionsFreshui
 			.'window.FRESHUI='.json_encode($data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_UNESCAPED_UNICODE).';})();</script>'."\n";
 
 		$out .= $this->takeposTouchFix($nonce);
+		$out .= $this->takeposDesign($nonce);
 
 		$this->resprints = $out;
 		return 0;
+	}
+
+	/**
+	 * Modernes Design für TakePOS (css/takepos.css, js/takepos.js), nur auf /takepos/-Seiten.
+	 * Der Hook läuft nach TakePOS' eigenen Stylesheets, das Design gewinnt also.
+	 *
+	 * @param  string $nonce CSP-Nonce-Attribut
+	 * @return string        HTML oder ''
+	 */
+	private function takeposDesign($nonce)
+	{
+		if (strpos($_SERVER['PHP_SELF'] ?? '', '/takepos/') === false || !getDolGlobalInt('FRESHUI_TAKEPOS', 1)) {
+			return '';
+		}
+		// Eigene Versionsnummer je Datei, damit Tablets nach Änderungen nicht die alte Fassung aus dem Cache nehmen
+		$url = function ($file) {
+			return dol_buildpath('/freshui/'.$file, 1).'?v='.((int) @filemtime(dol_buildpath('/freshui/'.$file, 0)));
+		};
+		return '<script'.$nonce.'>document.documentElement.classList.add("fu-tp");</script>'."\n"
+			.'<link rel="stylesheet" href="'.dol_escape_htmltag($url('css/takepos.css')).'">'."\n"
+			.'<script'.$nonce.' src="'.dol_escape_htmltag($url('js/takepos.js')).'" defer></script>'."\n";
 	}
 
 	/**
