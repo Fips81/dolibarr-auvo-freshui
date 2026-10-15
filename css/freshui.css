@@ -114,6 +114,14 @@ html.fu-on div.div-table-responsive-no-min {
 html.fu-on div.tabBar { padding: 14px 18px; }
 html.fu-on div.fiche > div.tabBar { margin-bottom: 14px; }
 
+/* Aktiver Reiter: eldy unterstreicht ihn in --colorbackhmenu1, das wir oben
+   auf transparent setzen (Kopfleiste). Ohne eigene Regel ist er nicht zu sehen. */
+html.fu-on .tabactive,
+html.fu-on a.tab#active {
+	border-bottom: 3px solid rgb(var(--fu-accent-rgb)) !important;
+	font-weight: 600;
+}
+
 /* Tabellen */
 html.fu-on table.noborder,
 html.fu-on table.liste {
