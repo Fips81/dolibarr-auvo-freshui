@@ -1,6 +1,15 @@
 <?php
-/* FreshUI - Such-Palette: direkte Treffer (Partner, Produkte, Belege ...) und Dolibarrs
- * "Suchen in"-Einträge in einer Antwort. Eigenentwicklung, GPL v3+. */
+/*
+ * Copyright (C) 2026 auvo-design <r.vogel@auvo-design.de>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * AuVo FreshUI - Such-Palette: direkte Treffer (Partner, Produkte, Belege ...) und Dolibarrs
+ * "Suchen in"-Einträge in einer Antwort.
+ */
 
 if (!defined('NOTOKENRENEWAL')) {
 	define('NOTOKENRENEWAL', 1);

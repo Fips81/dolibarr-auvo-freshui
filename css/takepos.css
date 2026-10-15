@@ -1,5 +1,14 @@
-/* FreshUI - modernes Design für TakePOS (Kasse). Wird nur auf /takepos/-Seiten geladen,
- * nach TakePOS' eigenen Styles (pos.css.php, colorful.css). Eigenentwicklung, GPL v3+. */
+/*
+ * Copyright (C) 2026 auvo-design <r.vogel@auvo-design.de>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * AuVo FreshUI - modernes Design für TakePOS (Kasse). Wird nur auf /takepos/-Seiten geladen,
+ * nach TakePOS' eigenen Styles (pos.css.php, colorful.css).
+ */
 
 html.fu-tp {
 	--tp-gap: 8px;

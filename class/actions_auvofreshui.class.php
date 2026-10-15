@@ -1,10 +1,19 @@
 <?php
-/* FreshUI - Hook: gibt Akzentfarbe und Layout-Klassen schon im <head> aus (kein Aufblitzen). */
+/*
+ * Copyright (C) 2026 auvo-design <r.vogel@auvo-design.de>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * AuVo FreshUI - Hook: gibt Akzentfarbe und Layout-Klassen schon im <head> aus (kein Aufblitzen).
+ */
 
 /**
  * Hook-Klasse, Kontext 'main'
  */
-class ActionsFreshui
+class ActionsAuvofreshui
 {
 	/** @var string */
 	public $resprints = '';
@@ -27,14 +36,14 @@ class ActionsFreshui
 		if (GETPOST('optioncss', 'aZ09') == 'print') {
 			return 0;
 		}
-		$langs->load('freshui@freshui');
+		$langs->load('auvofreshui@auvofreshui');
 
 		$isLogin = isset($parameters['currentcontext']) && $parameters['currentcontext'] === 'mainloginpage';
 		if (!$isLogin && !empty($conf->loginpage_done)) {
 			return 0;
 		}
 
-		$accent = getDolGlobalString('FRESHUI_ACCENT', '#00ffff');
+		$accent = getDolGlobalString('AUVOFRESHUI_ACCENT', '#00ffff');
 		if (!preg_match('/^#[0-9a-fA-F]{6}$/', $accent)) {
 			$accent = '#00ffff';
 		}
@@ -44,7 +53,7 @@ class ActionsFreshui
 		$strong = sprintf('#%02x%02x%02x', (int) ($r * 0.62), (int) ($g * 0.62), (int) ($b * 0.62));
 
 		if ($isLogin) {
-			if (!getDolGlobalInt('FRESHUI_LOGIN', 1)) {
+			if (!getDolGlobalInt('AUVOFRESHUI_LOGIN', 1)) {
 				return 0;
 			}
 			$conf->loginpage_done = 1;
@@ -67,18 +76,18 @@ class ActionsFreshui
 		}
 
 		// Layout (Icon-Leiste + Seitenmenü) nur, wenn die Seite beide Menüs hat
-		$layout = getDolGlobalInt('FRESHUI_SIDEBAR', 1)
+		$layout = getDolGlobalInt('AUVOFRESHUI_SIDEBAR', 1)
 			&& empty($conf->dol_hide_leftmenu) && empty($conf->dol_hide_topmenu)
 			&& !GETPOST('dol_openinpopup')
 			&& !(defined('NOREQUIREMENU') && constant('NOREQUIREMENU'));
-		$aurora = getDolGlobalInt('FRESHUI_AURORA', 1);
-		$brand = $layout && getDolGlobalInt('FRESHUI_BRAND', 1);
+		$aurora = getDolGlobalInt('AUVOFRESHUI_AURORA', 1);
+		$brand = $layout && getDolGlobalInt('AUVOFRESHUI_BRAND', 1);
 		// Dieselbe Einstellung wie im Standardtheme (Benutzeroberfläche > Disposition du menu
 		// haut) entscheidet, ob die Icon-Leiste zusätzlich den Menünamen zeigt: 2/3/4 = "Icon only"-
 		// Varianten, 0 = Icon und Text (Default), 1 = Text only.
 		$menutext = $layout && !in_array(getDolGlobalInt('THEME_TOPMENU_DISABLE_IMAGE'), array(2, 3, 4), true);
-		$listfit = $layout && getDolGlobalInt('FRESHUI_LISTFIT', 1);
-		$palette = getDolGlobalInt('FRESHUI_PALETTE', 1) && !empty($conf->use_javascript_ajax);
+		$listfit = $layout && getDolGlobalInt('AUVOFRESHUI_LISTFIT', 1);
+		$palette = getDolGlobalInt('AUVOFRESHUI_PALETTE', 1) && !empty($conf->use_javascript_ajax);
 
 		// Logo für die Kopfleiste: kleines Firmenlogo, sonst Originallogo, sonst Dolibarr-Logo
 		$logo = '';
@@ -94,7 +103,7 @@ class ActionsFreshui
 				$logo = DOL_URL_ROOT.'/theme/dolibarr_logo.svg';
 			}
 		}
-		$default = getDolGlobalString('FRESHUI_DARK_DEFAULT', 'auto');
+		$default = getDolGlobalString('AUVOFRESHUI_DARK_DEFAULT', 'auto');
 		if (!in_array($default, array('auto', 'light', 'dark'))) {
 			$default = 'auto';
 		}
@@ -115,10 +124,12 @@ class ActionsFreshui
 		$data = array('labels' => $labels, 'logo' => $logo, 'home' => DOL_URL_ROOT.'/index.php?mainmenu=home&leftmenu=home');
 		$data['name'] = getDolGlobalString('MAIN_INFO_SOCIETE_NOM');
 		if ($palette) {
-			$data['search'] = dol_buildpath('/freshui/ajax/search.php', 1);
+			$data['search'] = dol_buildpath('/auvofreshui/ajax/search.php', 1);
 		}
 
 		$out = '<style'.$nonce.'>html.fu-on{--fu-accent:'.$accent.';--fu-accent-rgb:'.$r.','.$g.','.$b.';--fu-accent-strong:'.$strong.';}</style>'."\n";
+		// localStorage keys keep the old prefix "freshui." so dark mode and the
+		// collapsed menu survive the rename to AuVo FreshUI (also in freshui.js).
 		$out .= '<script'.$nonce.'>(function(){var d=document.documentElement,c=d.classList;c.add("fu-on");'
 			.($layout ? 'c.add("fu-layout");' : '')
 			.($aurora ? 'c.add("fu-aurora");' : '')
@@ -148,12 +159,12 @@ class ActionsFreshui
 	 */
 	private function takeposDesign($nonce)
 	{
-		if (strpos($_SERVER['PHP_SELF'] ?? '', '/takepos/') === false || !getDolGlobalInt('FRESHUI_TAKEPOS', 1)) {
+		if (strpos($_SERVER['PHP_SELF'] ?? '', '/takepos/') === false || !getDolGlobalInt('AUVOFRESHUI_TAKEPOS', 1)) {
 			return '';
 		}
 		// Eigene Versionsnummer je Datei, damit Tablets nach Änderungen nicht die alte Fassung aus dem Cache nehmen
 		$url = function ($file) {
-			return dol_buildpath('/freshui/'.$file, 1).'?v='.((int) @filemtime(dol_buildpath('/freshui/'.$file, 0)));
+			return dol_buildpath('/auvofreshui/'.$file, 1).'?v='.((int) @filemtime(dol_buildpath('/auvofreshui/'.$file, 0)));
 		};
 		return '<script'.$nonce.'>document.documentElement.classList.add("fu-tp");</script>'."\n"
 			.'<link rel="stylesheet" href="'.dol_escape_htmltag($url('css/takepos.css')).'">'."\n"

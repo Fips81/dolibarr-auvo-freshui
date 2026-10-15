@@ -1,5 +1,14 @@
-/* FreshUI - Optik und Layout über dem Dolibarr-Theme eldy. Eigenentwicklung, GPL v3+.
- * Alles hängt an html.fu-on (vom Hook gesetzt), Layout zusätzlich an html.fu-layout. */
+/*
+ * Copyright (C) 2026 auvo-design <r.vogel@auvo-design.de>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * AuVo FreshUI - Optik und Layout über dem Dolibarr-Theme eldy.
+ * Alles hängt an html.fu-on (vom Hook gesetzt), Layout zusätzlich an html.fu-layout.
+ */
 
 /* ---------- Design-Token ---------- */
 html.fu-on {
@@ -466,7 +475,7 @@ html.fu-on a.butAction:hover, html.fu-on button.butAction:hover, html.fu-on inpu
 	/* Werkzeuge + Benutzermenü/Version neben dem Logo statt unten in der Icon-Leiste -
 	 * die bleibt dadurch komplett fürs Hauptmenü frei. Überschreibt die Grundstile
 	 * von .fu-tools/div.login_block oben (die noch als Fallback gelten, wenn die
-	 * Logo-Leiste per FRESHUI_BRAND=0 deaktiviert ist). */
+	 * Logo-Leiste per AUVOFRESHUI_BRAND=0 deaktiviert ist). */
 	html.fu-layout .fu-brandbar .fu-tools { padding: 0; }
 	html.fu-layout .fu-brandbar div.login_block {
 		display: flex;

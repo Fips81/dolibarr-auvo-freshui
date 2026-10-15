@@ -1,4 +1,6 @@
-# Dolibarr language file - de_DE - freshui
+# Dolibarr language file - de_DE - auvofreshui
+Module194204Name=AuVo FreshUI
+Module194204Desc=Modernes Layout für Dolibarr: Icon-Leiste, Such-Palette, Dark Mode
 FreshuiFilterMenu=Menü filtern…
 FreshuiToggleDark=Dark Mode umschalten
 FreshuiToggleSidebar=Seitenmenü ein-/ausblenden
