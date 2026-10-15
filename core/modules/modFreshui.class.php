@@ -25,7 +25,7 @@ class modFreshui extends DolibarrModules
 		$this->description = 'Frisches Layout: Icon-Leiste, Menü-Filter, Dark Mode';
 		$this->descriptionlong = 'Legt ein modernes Layout über das Dolibarr-Standardtheme eldy: Icon-Leiste mit Seitenmenü, Menü-Filter (Strg+K), Dark Mode, Aurora-Hintergrund und neu gestaltete Karten, Tabellen und Formulare.';
 		$this->editor_name = 'Eigenentwicklung';
-		$this->version = '1.2.1';
+		$this->version = '1.2.2';
 		$this->const_name = 'MAIN_MODULE_'.strtoupper($this->name);
 		$this->picto = 'generic';
 
