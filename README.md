@@ -101,6 +101,15 @@ Release).
 
 ## Changelog
 
+### 1.3.1 (noch nicht veröffentlicht)
+
+- Filterkasten über Listen als eigene Karte: rundum gerundet, mit Rahmen und
+  Abstand zur Tabelle statt unten offen an der Tabellenkarte (Issue #1).
+- Kein doppelter Seitenrand mehr im FreshUI-Layout: der eldy-Einzug von
+  44/38 px für die klassische Menüleiste entfällt (Issue #1).
+- Listen auf Bildschirmhöhe: In Chrome und Edge ragt die Scrollleiste nicht
+  mehr in die abgerundeten Ecken der Listenkarte (Issue #1).
+
 ### 1.3.0
 
 - Umbenannt in **AuVo FreshUI** (Ordner `auvofreshui`, Modulnummer 194204)

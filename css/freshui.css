@@ -123,6 +123,16 @@ html.fu-on div.div-table-responsive-no-min {
 html.fu-on div.tabBar { padding: 14px 18px; }
 html.fu-on div.fiche > div.tabBar { margin-bottom: 14px; }
 
+/* Filterkasten über Listen (Schlagwort, Geschäftspartner …): eldy zeichnet ihn
+   als Kopf der Tabelle, oben gerundet und unten offen. Bei uns ist die Tabelle
+   eine eigene Karte, also wird auch der Filterkasten eine: rundum gerundet, mit
+   Rahmen und Abstand zur Tabelle (Issue #1). */
+html.fu-on div.liste_titre_bydiv {
+	border: 1px solid var(--fu-border);
+	border-radius: var(--fu-radius);
+	margin-bottom: var(--fu-gap);
+}
+
 /* Aktiver Reiter: eldy unterstreicht ihn in --colorbackhmenu1, das wir oben
    auf transparent setzen (Kopfleiste). Ohne eigene Regel ist er nicht zu sehen. */
 html.fu-on .tabactive,
@@ -402,6 +412,12 @@ html.fu-on a.butAction:hover, html.fu-on button.butAction:hover, html.fu-on inpu
 		padding: 20px 16px 28px;
 	}
 	html.fu-layout .classforhorizontalscrolloftabs #id-container { width: auto; }
+	/* eldy rückt den Inhalt 44px/38px ein (für die klassische Menüleiste). Leiste,
+	   Seitenmenü und #id-right bringen hier schon eigenen Abstand mit (Issue #1). */
+	html.fu-layout div.fiche {
+		margin-left: 0;
+		margin-right: 0;
+	}
 
 	/* Logo-Leiste über die volle Seitenbreite, über beiden Menüs UND dem Content */
 	html.fu-layout.fu-brand #id-top,
@@ -555,6 +571,31 @@ html.fu-on div.div-table-responsive-no-min .select2-hidden-accessible {
 		overflow: auto;
 		min-height: 0;
 		overscroll-behavior: contain;
+	}
+	/* Chrome/Edge schneiden die Scrollleisten nicht auf die Rundung der Karte
+	   zu (Firefox schon): die Laufschiene hält Abstand zu den Ecken, die Ecke
+	   zwischen beiden Leisten bleibt durchsichtig (Issue #1). */
+	html.fu-layout.fu-listfit div.fu-listbox::-webkit-scrollbar {
+		width: 10px;
+		height: 10px;
+	}
+	html.fu-layout.fu-listfit div.fu-listbox::-webkit-scrollbar-thumb {
+		background: var(--fu-border-strong);
+		border: 2px solid transparent;
+		border-radius: 10px;
+		background-clip: padding-box;
+	}
+	html.fu-layout.fu-listfit div.fu-listbox::-webkit-scrollbar-thumb:hover {
+		background-color: var(--fu-muted);
+	}
+	html.fu-layout.fu-listfit div.fu-listbox::-webkit-scrollbar-track:vertical {
+		margin: var(--fu-radius) 0;
+	}
+	html.fu-layout.fu-listfit div.fu-listbox::-webkit-scrollbar-track:horizontal {
+		margin: 0 var(--fu-radius);
+	}
+	html.fu-layout.fu-listfit div.fu-listbox::-webkit-scrollbar-corner {
+		background: transparent;
 	}
 	html.fu-layout.fu-listfit .fu-listbox tr.liste_titre > td,
 	html.fu-layout.fu-listfit .fu-listbox tr.liste_titre > th,
