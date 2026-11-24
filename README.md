@@ -109,6 +109,8 @@ Release).
   44/38 px für die klassische Menüleiste entfällt (Issue #1).
 - Listen auf Bildschirmhöhe: In Chrome und Edge ragt die Scrollleiste nicht
   mehr in die abgerundeten Ecken der Listenkarte (Issue #1).
+- Seitenmenü: Auch hier ragt die Scrollleiste in Chrome und Edge nicht mehr
+  über die abgerundete Ecke der Karte.
 
 ### 1.3.0
 
