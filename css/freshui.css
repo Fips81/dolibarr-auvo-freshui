@@ -46,8 +46,10 @@ html.fu-on {
 	--colortexttitlenotab2: var(--fu-text);
 	--colortextbackhmenu: var(--fu-muted);
 	--colortextbackvmenu: var(--fu-text);
-	--colortextlink: var(--fu-accent-strong);
-	--colortexttitlelink: var(--fu-accent-strong);
+	/* Lesbarer Akzentton für Text (vom Hook berechnet, mind. 4.5:1 zum Hintergrund) */
+	--fu-link: var(--fu-accent-text, var(--fu-accent-strong));
+	--colortextlink: var(--fu-link);
+	--colortexttitlelink: var(--fu-link);
 	--inputbordercolor: var(--fu-border-strong);
 	--inputbackgroundcolor: #fff;
 	color-scheme: light;
@@ -65,8 +67,9 @@ html.fu-on.fu-dark {
 	--fu-hover: rgba(var(--fu-accent-rgb), .16);
 	--colorbacklinepair2: rgba(255, 255, 255, .03);
 	--colorbacklineimpair2: rgba(255, 255, 255, .03);
-	--colortextlink: rgb(var(--fu-accent-rgb));
-	--colortexttitlelink: rgb(var(--fu-accent-rgb));
+	--fu-link: var(--fu-accent-text-dark, rgb(var(--fu-accent-rgb)));
+	--colortextlink: var(--fu-link);
+	--colortexttitlelink: var(--fu-link);
 	--inputbackgroundcolor: #262a33;
 	--inputbackgroundcolordisabled: #20232a;
 	--inputcolordisabled: #8b92a1;
@@ -200,21 +203,25 @@ html.fu-on .select2-container--default .select2-selection--single .select2-selec
 html.fu-on .select2-dropdown { background: var(--fu-card); color: var(--fu-text); border-color: var(--fu-border-strong); border-radius: 10px; overflow: hidden; }
 
 /* Buttons */
-html.fu-on a.butAction, html.fu-on button.butAction, html.fu-on input.butAction,
+html.fu-on a.butAction, html.fu-on span.butAction, html.fu-on button.butAction, html.fu-on input.butAction,
 html.fu-on input.button, html.fu-on input[type=submit].button, html.fu-on button.button,
 html.fu-on a.button {
 	border-radius: 10px;
 	box-shadow: none;
 }
-html.fu-on a.butAction, html.fu-on a.butAction:link, html.fu-on a.butAction:visited,
+/* span.butAction: Dolibarr rendert Aktionsbuttons ohne URL (z. B. „Duplizieren“, öffnet
+ * einen Dialog) als <span>. Schriftfarbe vom Hook berechnet: weiß oder dunkel, je nachdem,
+ * was auf der Akzentfarbe besser lesbar ist. */
+html.fu-on a.butAction, html.fu-on a.butAction:link, html.fu-on a.butAction:visited, html.fu-on span.butAction,
 html.fu-on button.butAction, html.fu-on input[type=submit].button, html.fu-on input.button-save {
 	background: rgb(var(--fu-accent-rgb)) !important;
 	border: 1px solid rgb(var(--fu-accent-rgb)) !important;
-	color: #fff !important;
+	color: var(--fu-on-accent, #fff) !important;
 }
-html.fu-on a.butAction:hover, html.fu-on button.butAction:hover, html.fu-on input[type=submit].button:hover {
+html.fu-on a.butAction:hover, html.fu-on span.butAction:hover, html.fu-on button.butAction:hover, html.fu-on input[type=submit].button:hover {
 	background: var(--fu-accent-strong) !important;
 	border-color: var(--fu-accent-strong) !important;
+	color: var(--fu-on-accent-strong, #fff) !important;
 }
 
 /* ---------- Layout: Icon-Leiste + Seitenmenü (nur breite Bildschirme) ---------- */
@@ -297,7 +304,7 @@ html.fu-on a.butAction:hover, html.fu-on button.butAction:hover, html.fu-on inpu
 	html.fu-layout div.topmenuimage > span, html.fu-layout div.topmenuimage .mainmenu { font-size: var(--fu-icon); }
 	html.fu-layout .mainmenu::before { font-size: var(--fu-icon); line-height: calc(var(--fu-icon) + 6px); color: var(--fu-muted); transition: color .15s; }
 	html.fu-layout li.tmenu:hover .mainmenu::before { color: var(--fu-text); }
-	html.fu-layout li.tmenusel .mainmenu::before { color: rgb(var(--fu-accent-rgb)); }
+	html.fu-layout li.tmenusel .mainmenu::before { color: var(--fu-link); }
 
 	/* Nur Icons (THEME_TOPMENU_DISABLE_IMAGE = Icon only, wie im Standardtheme): der Name
 	 * steht dann nur als Tooltip (title) am Icon. Bei Icon+Text oder Text only (Default)
@@ -320,7 +327,7 @@ html.fu-on a.butAction:hover, html.fu-on button.butAction:hover, html.fu-on inpu
 		transition: color .15s;
 	}
 	html.fu-layout.fu-menutext li.tmenu:hover a.tmenulabel { color: var(--fu-text); }
-	html.fu-layout.fu-menutext li.tmenusel a.tmenulabel { color: rgb(var(--fu-accent-rgb)); }
+	html.fu-layout.fu-menutext li.tmenusel a.tmenulabel { color: var(--fu-link); }
 	html.fu-layout li.tmenucompanylogo { pointer-events: none; }
 	html.fu-layout.fu-brand li.tmenucompanylogo { display: none; }
 	html.fu-layout .menulogocontainer { margin: 2px auto 6px; max-width: 48px; height: auto; background: none; }
@@ -766,7 +773,7 @@ html.fu-login input.butActionLogin {
 }
 html.fu-login input.butActionLogin:hover { background: #000 !important; }
 html.fu-login #login_line2 .center { text-align: left; margin-top: 18px !important; }
-html.fu-login a.aloginpasswordforgotten, html.fu-login a.alogin { color: var(--fu-accent-strong); font-size: 13px; }
+html.fu-login a.aloginpasswordforgotten, html.fu-login a.alogin { color: var(--fu-accent-text, var(--fu-accent-strong)); font-size: 13px; }
 html.fu-login .login_main_message { max-width: none; margin: 0 0 16px; text-align: left; }
 html.fu-login .login_main_message .error { padding: 10px 12px; border-radius: 10px; }
 html.fu-login .login_main_home { max-width: none !important; width: auto; }

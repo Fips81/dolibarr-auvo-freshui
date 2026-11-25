@@ -111,6 +111,15 @@ Release).
   mehr in die abgerundeten Ecken der Listenkarte (Issue #1).
 - Seitenmenü: Auch hier ragt die Scrollleiste in Chrome und Edge nicht mehr
   über die abgerundete Ecke der Karte.
+- Lesbare Farben bei jeder Akzentfarbe (Issue #1): Die Schrift auf Buttons
+  ist jetzt automatisch weiß oder dunkel, je nachdem, was auf der
+  Akzentfarbe besser lesbar ist (beim Standard-Cyan dunkel statt weiß).
+  Links, der aktive Menüpunkt und Texte in TakePOS verwenden einen aus der
+  Akzentfarbe berechneten Ton mit mindestens 4,5 : 1 Kontrast zum
+  Hintergrund, im dunklen Modus entsprechend aufgehellt.
+- Buttons ohne Link (z. B. „Duplizieren“, das einen Dialog öffnet) haben
+  jetzt dieselbe Form und Farbe wie die anderen Buttons statt des
+  eldy-Stils (Issue #1).
 
 ### 1.3.0
 

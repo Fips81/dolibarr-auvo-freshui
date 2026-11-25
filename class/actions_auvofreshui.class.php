@@ -51,6 +51,7 @@ class ActionsAuvofreshui
 		$g = hexdec(substr($accent, 3, 2));
 		$b = hexdec(substr($accent, 5, 2));
 		$strong = sprintf('#%02x%02x%02x', (int) ($r * 0.62), (int) ($g * 0.62), (int) ($b * 0.62));
+		$vars = self::accentVars($r, $g, $b, $accent, $strong);
 
 		if ($isLogin) {
 			if (!getDolGlobalInt('AUVOFRESHUI_LOGIN', 1)) {
@@ -68,7 +69,7 @@ class ActionsAuvofreshui
 					'show' => $langs->transnoentities('FreshuiShow'),
 				),
 			);
-			$out = '<style'.$nonce.'>html.fu-login{--fu-accent:'.$accent.';--fu-accent-rgb:'.$r.','.$g.','.$b.';--fu-accent-strong:'.$strong.';}</style>'."\n";
+			$out = '<style'.$nonce.'>html.fu-login{'.$vars.'}</style>'."\n";
 			$out .= '<script'.$nonce.'>document.documentElement.classList.add("fu-login");window.FRESHUI='
 				.json_encode($data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_UNESCAPED_UNICODE).';</script>'."\n";
 			$this->resprints = $out;
@@ -127,7 +128,7 @@ class ActionsAuvofreshui
 			$data['search'] = dol_buildpath('/auvofreshui/ajax/search.php', 1);
 		}
 
-		$out = '<style'.$nonce.'>html.fu-on{--fu-accent:'.$accent.';--fu-accent-rgb:'.$r.','.$g.','.$b.';--fu-accent-strong:'.$strong.';}</style>'."\n";
+		$out = '<style'.$nonce.'>html.fu-on{'.$vars.'}</style>'."\n";
 		// localStorage keys keep the old prefix "freshui." so dark mode and the
 		// collapsed menu survive the rename to AuVo FreshUI (also in freshui.js).
 		$out .= '<script'.$nonce.'>(function(){var d=document.documentElement,c=d.classList;c.add("fu-on");'
@@ -197,5 +198,79 @@ class ActionsAuvofreshui
 			.'document.addEventListener("focusin",function(e){var t=e.target;if(t&&t.id==="search"&&!own(t)){t.blur();}},true);'
 			.'document.addEventListener("DOMContentLoaded",function(){window.setFocusOnSearchField=function(){};});'
 			.'})();</script>'."\n";
+	}
+
+	/**
+	 * CSS custom properties derived from the accent colour.
+	 *
+	 * Besides the accent itself, readable variants are computed so that any
+	 * accent colour works (the default #00ffff is very bright):
+	 *  - --fu-on-accent / --fu-on-accent-strong: text colour on accent-coloured
+	 *    buttons (normal / hover), white or dark, whichever contrasts more;
+	 *  - --fu-accent-text: accent darkened until it reaches 4.5:1 on the light
+	 *    page background (links, active menu item in light mode);
+	 *  - --fu-accent-text-dark: accent lightened until it reaches 4.5:1 on the
+	 *    dark card background (same in dark mode).
+	 *
+	 * @param int    $r      Red 0-255
+	 * @param int    $g      Green 0-255
+	 * @param int    $b      Blue 0-255
+	 * @param string $accent Accent as #rrggbb
+	 * @param string $strong Darker accent for hover, as #rrggbb
+	 * @return string        Declarations without selector and braces
+	 */
+	public static function accentVars($r, $g, $b, $accent, $strong)
+	{
+		$dark = array(31, 36, 48);       // --fu-text (light mode)
+		$white = array(255, 255, 255);
+		$lightBg = array(247, 245, 242); // --fu-bg (light mode)
+		$darkBg = array(29, 32, 39);     // --fu-card (dark mode)
+		$rgb = array($r, $g, $b);
+		$strongRgb = array(hexdec(substr($strong, 1, 2)), hexdec(substr($strong, 3, 2)), hexdec(substr($strong, 5, 2)));
+
+		$on = function ($c) use ($dark, $white) {
+			return self::contrast($c, $white) >= self::contrast($c, $dark) ? '#fff' : '#1f2430';
+		};
+		$text = $rgb;
+		for ($i = 0; $i < 60 && self::contrast($text, $lightBg) < 4.5; $i++) {
+			$text = array_map(function ($v) {
+				return $v * 0.94;
+			}, $text);
+		}
+		$textDark = $rgb;
+		for ($i = 0; $i < 60 && self::contrast($textDark, $darkBg) < 4.5; $i++) {
+			$textDark = array_map(function ($v) {
+				return $v + (255 - $v) * 0.08;
+			}, $textDark);
+		}
+		$hex = function ($c) {
+			return sprintf('#%02x%02x%02x', (int) round($c[0]), (int) round($c[1]), (int) round($c[2]));
+		};
+
+		return '--fu-accent:'.$accent.';--fu-accent-rgb:'.$r.','.$g.','.$b.';--fu-accent-strong:'.$strong
+			.';--fu-on-accent:'.$on($rgb).';--fu-on-accent-strong:'.$on($strongRgb)
+			.';--fu-accent-text:'.$hex($text).';--fu-accent-text-dark:'.$hex($textDark).';';
+	}
+
+	/**
+	 * WCAG 2 contrast ratio of two sRGB colours (arrays of 0-255).
+	 *
+	 * @param array<int|float> $a First colour
+	 * @param array<int|float> $b Second colour
+	 * @return float              Ratio 1..21
+	 */
+	public static function contrast($a, $b)
+	{
+		$lum = function ($c) {
+			$l = array();
+			foreach ($c as $v) {
+				$v /= 255;
+				$l[] = $v <= 0.03928 ? $v / 12.92 : pow(($v + 0.055) / 1.055, 2.4);
+			}
+			return 0.2126 * $l[0] + 0.7152 * $l[1] + 0.0722 * $l[2];
+		};
+		$la = $lum($a);
+		$lb = $lum($b);
+		return (max($la, $lb) + 0.05) / (min($la, $lb) + 0.05);
 	}
 }

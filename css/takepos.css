@@ -81,12 +81,12 @@ html.fu-tp .topnav-left a {
 	border-radius: 10px;
 	font-weight: 550;
 }
-html.fu-tp .topnav-left a.topnav-terminalhour .fa { color: var(--fu-accent-strong); }
+html.fu-tp .topnav-left a.topnav-terminalhour .fa { color: var(--fu-accent-text, var(--fu-accent-strong)); }
 html.fu-tp .topnav-left a:hover:not(.nohover),
 html.fu-tp .topnav .login_block_other a:hover:not(.nohover) { background: var(--fu-hover); color: var(--fu-text); }
 html.fu-tp div#moreinfo, html.fu-tp div#infowarehouse { color: var(--fu-muted); }
 html.fu-tp #shoppingcart a, html.fu-tp #customerandsales a { color: var(--fu-text); }
-html.fu-tp .basketselected { background: var(--tp-tint); color: var(--fu-accent-strong) !important; }
+html.fu-tp .basketselected { background: var(--tp-tint); color: var(--fu-accent-text, var(--fu-accent-strong)) !important; }
 
 html.fu-tp .login_block_other.takepos { display: flex; align-items: center; gap: 4px; margin: 0; }
 html.fu-tp .topnav input#search[type="text"] {
@@ -235,12 +235,12 @@ html.fu-tp button.calcbutton {
 }
 html.fu-tp button.calcbutton2 {
 	background: var(--tp-tint) !important;
-	color: var(--fu-accent-strong) !important;
+	color: var(--fu-accent-text, var(--fu-accent-strong)) !important;
 	border-color: rgba(var(--fu-accent-rgb), .35);
 	font-size: 13px;
 	font-weight: 700;
 }
-html.fu-tp.fu-dark button.calcbutton2 { color: rgb(var(--fu-accent-rgb)) !important; }
+html.fu-tp.fu-dark button.calcbutton2 { color: var(--fu-accent-text-dark, rgb(var(--fu-accent-rgb))) !important; }
 html.fu-tp button.calcbutton2.clicked {
 	background: var(--tp-solid) !important;
 	border-color: var(--tp-solid);
@@ -286,9 +286,9 @@ html.fu-tp button.actionbutton {
 html.fu-tp button.actionbutton > .fa, html.fu-tp button.actionbutton > .fas, html.fu-tp button.actionbutton > .far {
 	padding: 0;
 	font-size: 19px;
-	color: var(--fu-accent-strong);
+	color: var(--fu-accent-text, var(--fu-accent-strong));
 }
-html.fu-tp.fu-dark button.actionbutton > .fa, html.fu-tp.fu-dark button.actionbutton > .fas, html.fu-tp.fu-dark button.actionbutton > .far { color: rgb(var(--fu-accent-rgb)); }
+html.fu-tp.fu-dark button.actionbutton > .fa, html.fu-tp.fu-dark button.actionbutton > .fas, html.fu-tp.fu-dark button.actionbutton > .far { color: var(--fu-accent-text-dark, rgb(var(--fu-accent-rgb))); }
 html.fu-tp button.actionbutton .trunc { max-width: 100%; }
 html.fu-tp button.actionbutton:hover { background: var(--fu-hover) !important; }
 /* Bezahlen hervorheben */
@@ -354,7 +354,7 @@ html.fu-tp div.catwatermark {
 	width: auto;
 	padding: 0 7px;
 	background: var(--tp-tint-strong);
-	color: var(--fu-accent-strong);
+	color: var(--fu-accent-text, var(--fu-accent-strong));
 	font-size: 13px;
 	font-weight: 800;
 	line-height: 18px;
@@ -392,7 +392,7 @@ html.fu-tp div.fu-nophoto::before {
 	justify-content: center;
 	border-radius: 50%;
 	background: var(--tp-tint);
-	color: var(--fu-accent-strong);
+	color: var(--fu-accent-text, var(--fu-accent-strong));
 	font-size: 22px;
 	font-weight: 750;
 }
