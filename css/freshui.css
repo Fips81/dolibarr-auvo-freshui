@@ -203,22 +203,23 @@ html.fu-on .select2-container--default .select2-selection--single .select2-selec
 html.fu-on .select2-dropdown { background: var(--fu-card); color: var(--fu-text); border-color: var(--fu-border-strong); border-radius: 10px; overflow: hidden; }
 
 /* Buttons */
-html.fu-on a.butAction, html.fu-on span.butAction, html.fu-on button.butAction, html.fu-on input.butAction,
+html.fu-on a.butAction, html.fu-on span.butAction, html.fu-on summary.butAction, html.fu-on button.butAction, html.fu-on input.butAction,
 html.fu-on input.button, html.fu-on input[type=submit].button, html.fu-on button.button,
 html.fu-on a.button {
 	border-radius: 10px;
 	box-shadow: none;
 }
 /* span.butAction: Dolibarr rendert Aktionsbuttons ohne URL (z. B. „Duplizieren“, öffnet
- * einen Dialog) als <span>. Schriftfarbe vom Hook berechnet: weiß oder dunkel, je nachdem,
+ * einen Dialog) als <span>. summary.butAction: Ausklappmenüs aus Modulen (<details>),
+ * z. B. der Button „E-Rechnung“ von AuVo E-Rechnung. Schriftfarbe vom Hook berechnet: weiß oder dunkel, je nachdem,
  * was auf der Akzentfarbe besser lesbar ist. */
-html.fu-on a.butAction, html.fu-on a.butAction:link, html.fu-on a.butAction:visited, html.fu-on span.butAction,
+html.fu-on a.butAction, html.fu-on a.butAction:link, html.fu-on a.butAction:visited, html.fu-on span.butAction, html.fu-on summary.butAction,
 html.fu-on button.butAction, html.fu-on input[type=submit].button, html.fu-on input.button-save {
 	background: rgb(var(--fu-accent-rgb)) !important;
 	border: 1px solid rgb(var(--fu-accent-rgb)) !important;
 	color: var(--fu-on-accent, #fff) !important;
 }
-html.fu-on a.butAction:hover, html.fu-on span.butAction:hover, html.fu-on button.butAction:hover, html.fu-on input[type=submit].button:hover {
+html.fu-on a.butAction:hover, html.fu-on span.butAction:hover, html.fu-on summary.butAction:hover, html.fu-on button.butAction:hover, html.fu-on input[type=submit].button:hover {
 	background: var(--fu-accent-strong) !important;
 	border-color: var(--fu-accent-strong) !important;
 	color: var(--fu-on-accent-strong, #fff) !important;

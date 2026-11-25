@@ -117,7 +117,8 @@ Release).
   Links, der aktive Menüpunkt und Texte in TakePOS verwenden einen aus der
   Akzentfarbe berechneten Ton mit mindestens 4,5 : 1 Kontrast zum
   Hintergrund, im dunklen Modus entsprechend aufgehellt.
-- Buttons ohne Link (z. B. „Duplizieren“, das einen Dialog öffnet) haben
+- Buttons ohne Link (z. B. „Duplizieren“, das einen Dialog öffnet) und
+  Ausklappmenüs aus Modulen (z. B. „E-Rechnung“ von AuVo E-Rechnung) haben
   jetzt dieselbe Form und Farbe wie die anderen Buttons statt des
   eldy-Stils (Issue #1).
 
