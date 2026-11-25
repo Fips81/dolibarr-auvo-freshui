@@ -210,7 +210,9 @@ class ActionsAuvofreshui
 	 *  - --fu-accent-text: accent darkened until it reaches 4.5:1 on the light
 	 *    page background (links, active menu item in light mode);
 	 *  - --fu-accent-text-dark: accent lightened until it reaches 4.5:1 on the
-	 *    dark card background (same in dark mode).
+	 *    dark card background (same in dark mode);
+	 *  - --fu-accent-label / --fu-accent-label-dark: the same at 7:1, for small
+	 *    text on a tinted background (label of the active main menu item).
 	 *
 	 * @param int    $r      Red 0-255
 	 * @param int    $g      Green 0-255
@@ -231,25 +233,34 @@ class ActionsAuvofreshui
 		$on = function ($c) use ($dark, $white) {
 			return self::contrast($c, $white) >= self::contrast($c, $dark) ? '#fff' : '#1f2430';
 		};
-		$text = $rgb;
-		for ($i = 0; $i < 60 && self::contrast($text, $lightBg) < 4.5; $i++) {
-			$text = array_map(function ($v) {
-				return $v * 0.94;
-			}, $text);
-		}
-		$textDark = $rgb;
-		for ($i = 0; $i < 60 && self::contrast($textDark, $darkBg) < 4.5; $i++) {
-			$textDark = array_map(function ($v) {
-				return $v + (255 - $v) * 0.08;
-			}, $textDark);
-		}
+		$darken = function ($c, $bg, $min) {
+			for ($i = 0; $i < 80 && self::contrast($c, $bg) < $min; $i++) {
+				$c = array_map(function ($v) {
+					return $v * 0.94;
+				}, $c);
+			}
+			return $c;
+		};
+		$lighten = function ($c, $bg, $min) {
+			for ($i = 0; $i < 80 && self::contrast($c, $bg) < $min; $i++) {
+				$c = array_map(function ($v) {
+					return $v + (255 - $v) * 0.08;
+				}, $c);
+			}
+			return $c;
+		};
+		$text = $darken($rgb, $lightBg, 4.5);
+		$textDark = $lighten($rgb, $darkBg, 4.5);
+		$label = $darken($rgb, $lightBg, 7);
+		$labelDark = $lighten($rgb, $darkBg, 7);
 		$hex = function ($c) {
 			return sprintf('#%02x%02x%02x', (int) round($c[0]), (int) round($c[1]), (int) round($c[2]));
 		};
 
 		return '--fu-accent:'.$accent.';--fu-accent-rgb:'.$r.','.$g.','.$b.';--fu-accent-strong:'.$strong
 			.';--fu-on-accent:'.$on($rgb).';--fu-on-accent-strong:'.$on($strongRgb)
-			.';--fu-accent-text:'.$hex($text).';--fu-accent-text-dark:'.$hex($textDark).';';
+			.';--fu-accent-text:'.$hex($text).';--fu-accent-text-dark:'.$hex($textDark)
+			.';--fu-accent-label:'.$hex($label).';--fu-accent-label-dark:'.$hex($labelDark).';';
 	}
 
 	/**

@@ -48,6 +48,7 @@ html.fu-on {
 	--colortextbackvmenu: var(--fu-text);
 	/* Lesbarer Akzentton für Text (vom Hook berechnet, mind. 4.5:1 zum Hintergrund) */
 	--fu-link: var(--fu-accent-text, var(--fu-accent-strong));
+	--fu-menulabel: var(--fu-accent-label, var(--fu-link));
 	--colortextlink: var(--fu-link);
 	--colortexttitlelink: var(--fu-link);
 	--inputbordercolor: var(--fu-border-strong);
@@ -68,6 +69,7 @@ html.fu-on.fu-dark {
 	--colorbacklinepair2: rgba(255, 255, 255, .03);
 	--colorbacklineimpair2: rgba(255, 255, 255, .03);
 	--fu-link: var(--fu-accent-text-dark, rgb(var(--fu-accent-rgb)));
+	--fu-menulabel: var(--fu-accent-label-dark, var(--fu-link));
 	--colortextlink: var(--fu-link);
 	--colortexttitlelink: var(--fu-link);
 	--inputbackgroundcolor: #262a33;
@@ -328,7 +330,8 @@ html.fu-on a.butAction:hover, html.fu-on span.butAction:hover, html.fu-on summar
 		transition: color .15s;
 	}
 	html.fu-layout.fu-menutext li.tmenu:hover a.tmenulabel { color: var(--fu-text); }
-	html.fu-layout.fu-menutext li.tmenusel a.tmenulabel { color: var(--fu-link); }
+	/* Kleine Schrift auf getönter Fläche: kräftigerer Ton (7:1) und fetter */
+	html.fu-layout.fu-menutext li.tmenusel a.tmenulabel { color: var(--fu-menulabel); font-weight: 700; }
 	html.fu-layout li.tmenucompanylogo { pointer-events: none; }
 	html.fu-layout.fu-brand li.tmenucompanylogo { display: none; }
 	html.fu-layout .menulogocontainer { margin: 2px auto 6px; max-width: 48px; height: auto; background: none; }
